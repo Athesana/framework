@@ -1,0 +1,13 @@
+INDEX VERSION 1.131+C:\Users\ssskd\Documents\framework\.metadata\.plugins\org.eclipse.jdt.core
+689109915.index
+220484073.index
+3640442701.index
+4014263395.index
+1865797976.index
+1922734130.index
+3177690502.index
+906995547.index
+2628597183.index
+1667233534.index
+455986401.index
+3545811237.index
