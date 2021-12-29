@@ -61,8 +61,6 @@
 	    <version>3.21.0</version>
 	    <scope>test</scope>
 	</dependency>
-		
-
   </dependencies>
 
   <!-- 프로젝트 빌드에 대한 설정 (프로젝트 빌드에 사용될 여러가지 정보들) -->

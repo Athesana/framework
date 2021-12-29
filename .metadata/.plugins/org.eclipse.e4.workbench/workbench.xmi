@@ -111,9 +111,9 @@
               </children>
             </children>
             <children xsi:type="basic:PartSashContainer" xmi:id="_Z06xq2hHEeyRMa7XREZMeg" containerData="8512" selectedElement="_Z06xrGhHEeyRMa7XREZMeg" horizontal="true">
-              <children xsi:type="basic:PartSashContainer" xmi:id="_Z06xrGhHEeyRMa7XREZMeg" containerData="7072" selectedElement="_Z06xrWhHEeyRMa7XREZMeg">
+              <children xsi:type="basic:PartSashContainer" xmi:id="_Z06xrGhHEeyRMa7XREZMeg" containerData="6606" selectedElement="_Z06xrWhHEeyRMa7XREZMeg">
                 <children xsi:type="advanced:Placeholder" xmi:id="_Z06xrWhHEeyRMa7XREZMeg" elementId="org.eclipse.ui.editorss" containerData="7819" ref="_Z0odwGhHEeyRMa7XREZMeg"/>
-                <children xsi:type="basic:PartStack" xmi:id="_Z06xrmhHEeyRMa7XREZMeg" elementId="bottom" containerData="2181" selectedElement="_Z06xr2hHEeyRMa7XREZMeg">
+                <children xsi:type="basic:PartStack" xmi:id="_Z06xrmhHEeyRMa7XREZMeg" elementId="bottom" containerData="2181" selectedElement="_Z06xqWhHEeyRMa7XREZMeg">
                   <children xsi:type="advanced:Placeholder" xmi:id="_Z06xr2hHEeyRMa7XREZMeg" elementId="org.eclipse.ui.console.ConsoleView" ref="_Z01SEWhHEeyRMa7XREZMeg" closeable="true">
                     <tags>View</tags>
                     <tags>categoryTag:General</tags>
@@ -168,7 +168,7 @@
                   </children>
                 </children>
               </children>
-              <children xsi:type="basic:PartSashContainer" xmi:id="_Z06xumhHEeyRMa7XREZMeg" containerData="2928" selectedElement="_Z06xv2hHEeyRMa7XREZMeg">
+              <children xsi:type="basic:PartSashContainer" xmi:id="_Z06xumhHEeyRMa7XREZMeg" containerData="3394" selectedElement="_Z06xv2hHEeyRMa7XREZMeg">
                 <children xsi:type="basic:PartStack" xmi:id="_Z06xu2hHEeyRMa7XREZMeg" elementId="middleright" containerData="6451" selectedElement="_Z06xvGhHEeyRMa7XREZMeg">
                   <children xsi:type="advanced:Placeholder" xmi:id="_Z06xvGhHEeyRMa7XREZMeg" elementId="org.eclipse.ui.views.ContentOutline" ref="_Z00rAWhHEeyRMa7XREZMeg" closeable="true">
                     <tags>View</tags>
@@ -343,6 +343,7 @@
       <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;view/>"/>
       <tags>View</tags>
       <tags>categoryTag:General</tags>
+      <tags>highlighted</tags>
       <menus xmi:id="_bDgrsGhHEeyRMa7XREZMeg" elementId="org.eclipse.ui.console.ConsoleView">
         <tags>ViewMenu</tags>
         <tags>menuContribution:menu</tags>
@@ -452,7 +453,7 @@
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_ZumuQGhHEeyRMa7XREZMeg" elementId="org.eclipse.ui.workbench.file">
         <tags>Draggable</tags>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_BA_18GhQEeyt9uTt2b1sqw" elementId="print" visible="false" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/print_edit.png" tooltip="Print" command="_ZeXS02hHEeyRMa7XREZMeg"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_gE_2gGhxEeyYwsdGfIDILA" elementId="print" visible="false" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/print_edit.png" tooltip="Print" command="_ZeXS02hHEeyRMa7XREZMeg"/>
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_ZumuQWhHEeyRMa7XREZMeg" elementId="group.edit" toBeRendered="false">
         <tags>toolbarSeparator</tags>
@@ -486,7 +487,7 @@
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_ZunVUGhHEeyRMa7XREZMeg" elementId="org.eclipse.ui.workbench.navigate">
         <tags>Draggable</tags>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_BBDgUGhQEeyt9uTt2b1sqw" elementId="org.eclipse.ui.window.pinEditor" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/pin_editor.png" tooltip="Pin Editor" type="Check" command="_ZeWr5GhHEeyRMa7XREZMeg"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_gFC50GhxEeyYwsdGfIDILA" elementId="org.eclipse.ui.window.pinEditor" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/pin_editor.png" tooltip="Pin Editor" type="Check" command="_ZeWr5GhHEeyRMa7XREZMeg"/>
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_ZunVUWhHEeyRMa7XREZMeg" elementId="group.editor" toBeRendered="false">
         <tags>toolbarSeparator</tags>
@@ -2966,7 +2967,7 @@
   <addons xmi:id="_Zd1HZmhHEeyRMa7XREZMeg" elementId="MinMax Addon" contributorURI="platform:/plugin/org.eclipse.platform" contributionURI="bundleclass://org.eclipse.e4.ui.workbench.addons.swt/org.eclipse.e4.ui.workbench.addons.minmax.MinMaxAddon"/>
   <addons xmi:id="_Zd1HZ2hHEeyRMa7XREZMeg" elementId="org.eclipse.ui.workbench.addon.0" contributorURI="platform:/plugin/org.eclipse.platform" contributionURI="bundleclass://org.eclipse.e4.ui.workbench/org.eclipse.e4.ui.internal.workbench.addons.HandlerProcessingAddon"/>
   <addons xmi:id="_Zd-RQGhHEeyRMa7XREZMeg" elementId="SplitterAddon" contributionURI="bundleclass://org.eclipse.e4.ui.workbench.addons.swt/org.eclipse.e4.ui.workbench.addons.splitteraddon.SplitterAddon"/>
-  <addons xmi:id="_Az51IWhQEeyt9uTt2b1sqw" elementId="org.eclipse.ui.ide.addon.0" contributionURI="bundleclass://org.eclipse.ui.ide/org.eclipse.ui.internal.ide.addons.SaveAllDirtyPartsAddon"/>
+  <addons xmi:id="_IYS0IKimEeS11vbz3f9ezw" elementId="org.eclipse.ui.ide.addon.0" contributorURI="platform:/plugin/org.eclipse.ui.ide" contributionURI="bundleclass://org.eclipse.ui.ide/org.eclipse.ui.internal.ide.addons.SaveAllDirtyPartsAddon"/>
   <addons xmi:id="_dz0JgGOlEeSMMaPQU2nlzw" elementId="org.eclipse.ui.ide.application.addon.0" contributorURI="platform:/plugin/org.eclipse.ui.ide.application" contributionURI="bundleclass://org.eclipse.ui.ide.application/org.eclipse.ui.internal.ide.application.addons.ModelCleanupAddon"/>
   <categories xmi:id="_ZeQlIGhHEeyRMa7XREZMeg" elementId="org.eclipse.ui.category.edit" name="Edit"/>
   <categories xmi:id="_ZeQlIWhHEeyRMa7XREZMeg" elementId="org.eclipse.mylyn.wikitext.ui.editor.category" name="WikiText Markup Editing Commands" description="commands for editing lightweight markup"/>
