@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Mapper 설정 파일임을 선언 -->
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<!-- mapper의 namespace 속성 : 외부에서 mapper에 접근할 수 있는 이름 -->
+<mapper namespace="memberMapper">
+
+	<!-- 
+		SELECT 구문
+			id 속성 : 쿼리문의 고유 아이디(외부에서 참조할 때 id 속성을 가지고 참조한다.)
+			resultType 속성 : 쿼리 실행 후 조회된 결과 값의 자료형
+	 -->
+ 	<select id="selectCount" resultType="_int">
+ 		SELECT COUNT(*) FROM MEMBER 
+ 	</select>
+ 
+ 
+</mapper>

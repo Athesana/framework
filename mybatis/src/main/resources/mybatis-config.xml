@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Mybatis 설정 파일임을 선언하는 영역 -->
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<!-- Mybatis 설정과 관련된 기본 설정들을 선언하는 영역 -->
+<!-- configuration : 설정을 위한 가장 최상위 태그 -->  
+<configuration>
+
+	<!-- 
+		Database에 연결할 설정 정보들을 선언하는 영역  
+		
+		environments의 default 속성
+			- Database에 연결 설정을 여러 개 생성할 수 있는데, 그 중에서 기본으로 연결할 설정 정보를 지정하는 속성(envrionment의 id로 구분)
+			- 안에 여러 개의 <environment> 태그를 가질 수 있다.
+	-->
+	<environments default="web">
+		<environment id="web">
+			<!-- 
+				transactionManager의 type 속성 
+					- JDBC : JDBC가 commit, rollback을 직접 사용 가능하도록 하는 옵션
+					- MANAGED : JDBC가 트랜잭션에 대해 어떠한 영향도 행사하지 않는 옵션(무조건 AUTO COMMIT)
+			-->
+			<transactionManager type="JDBC" />
+			<!-- 
+				dataSource : 실제 DB 접속에 관한 정보를 넣는 태그
+				
+				type 속성
+					- POOLED : 커넥션 객체를 미리 만들어서 POOL에 저장해서 사용하는 설정, 객체 만드는 데 시간을 단축할 수 있다. 
+					- UNPOOLED : DB 요청이 올 때마다 커넥션 객체를 만들고 사용이 끝나면 닫는 설정, 
+								 커넥션 객체를 미리 만들어 놓는 설정이 아니므로 상대적으로 느릴 수 있다.	
+			 -->
+			<dataSource type="POOLED">
+				<property name="driver" value="oracle.jdbc.driver.OracleDriver"/>
+				<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
+				<property name="username" value="WEB"/>
+				<property name="password" value="WEB"/>
+			</dataSource>
+		</environment>
+		
+		<environment id="kh">
+			<transactionManager type="JDBC" />
+			
+			<dataSource type="POOLED">
+				<property name="driver" value="oracle.jdbc.driver.OracleDriver"/>
+				<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
+				<property name="username" value="KH"/>
+				<property name="password" value="KH"/>
+			</dataSource>
+		</environment>
+		
+	</environments>
+	
+	<!-- DB에서 사용하는 쿼리문들을 담는 mapper 파일을 등록하는 영역 -->
+	<mappers>
+		<mapper resource="mappers/member/member-mapper.xml"/>
+	</mappers>
+	
+</configuration>

@@ -36,6 +36,13 @@
 	    <artifactId>ojdbc6</artifactId>
 	    <version>11.2.0.4</version>
 	</dependency>
+	
+	<!-- mybatis -->
+	<dependency>
+	    <groupId>org.mybatis</groupId>
+	    <artifactId>mybatis</artifactId>
+	    <version>3.5.9</version>
+	</dependency>
 	  
 	<!-- lombok 라이브러리 -->
 	<dependency>
