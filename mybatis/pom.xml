@@ -10,7 +10,7 @@
   <!-- 
   	프로젝트 정보 설정
   	groupId : 프로젝트를 만드는 조직의 고유 아이디, 도메인의 역순으로 적는다.
-  	artifactId : 빌드했을 때, 아이디를 적어준다. (결과물의 아이디)
+  	artifactId : 실제 빌드했을 때, 만들어지는 파일 artifact 이름 (프로젝트 결과물의 이름)
    -->
   <groupId>com.kh</groupId>
   <artifactId>mybatis</artifactId>
@@ -60,6 +60,14 @@
 	    <version>5.8.2</version>
 	    <scope>test</scope>
 	</dependency>
+	
+	<dependency>
+	    <groupId>org.junit.jupiter</groupId>
+	    <artifactId>junit-jupiter-params</artifactId>
+	    <version>5.8.2</version>
+	    <scope>test</scope>
+	</dependency>
+		
 	
 	<!-- assertj-core 라이브러리 -->
 	<dependency>
