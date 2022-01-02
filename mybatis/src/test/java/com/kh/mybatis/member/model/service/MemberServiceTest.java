@@ -66,7 +66,7 @@ class MemberServiceTest {
 		assertThat(member).isNotNull()
 						  .extracting("id")
 						  .isEqualTo(userId);
-		
+		// null인지 확인 -> Member 객체에서 id 라는 필드 값만 추출 -> 그리고 그 값이 내가 지금 조회할 떄 쓰는 userId와 동일한지
 	}
 	
 	@Test
@@ -75,6 +75,7 @@ class MemberServiceTest {
 		int result = 0;
 		Member member = new Member();
 		
+		// NOT NULL 제약 조건 안 걸려있는 애들만 세팅하면 된다. (테이블 > 데이터 > NULLABLE이 NO인 상태인 애들!)
 		// NOT NULL 제약 조건이 걸려서 NULL 넘겼을 때 에러 발생할 애들만 미리 세팅을 한다.
 		member.setId("test1");
 		member.setPassword("1234");
@@ -85,6 +86,8 @@ class MemberServiceTest {
 		result = service.save(member);
 		
 		// member에 NO 값을 가져오고 싶다면?
+		// Member member = service.findMemberyById("test1");
+		// syso(member.getNo()); 이런식으로 처리했었어야 하지만, get 하지않고 INSERT 하고나서 NO값 받아올 것임
 				
 		System.out.println(member.getNo());
 

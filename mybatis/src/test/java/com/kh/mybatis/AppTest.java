@@ -33,13 +33,13 @@ public class AppTest {
 	@Test
 	@Disabled // 테스트 클래스 또는 메소드를 비활성할 수 있다.
 	public void nothing() {
-		// 이 테스트 메소드를 통해서 현재 프로젝트가 테스트가 가능한 환경인지 확인하는 작업부터 TDD가 시작된다.
+		// 과정 1) 이 테스트 메소드를 통해서 현재 프로젝트가 테스트가 가능한 환경인지 확인하는 작업부터 TDD가 시작된다. (내용은 아무것도 없다.)
 	}
     
 	@Test
 	@DisplayName("SqlSession 생성 테스트")
 	public void create() {
-		// 테스트 하고자 하는 객체가 생성되는지 확인
+		// 과정 2) 테스트 하고자 하는 객체가 생성되는지 확인
 		assertNotNull(session);
 	}
 }

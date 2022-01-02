@@ -22,7 +22,7 @@ public class MemberDao {
 	}
 
 	public List<Member> findAll(SqlSession session) {
-		// 값이 조회되면 LIST를 없으면 빈 LIST를 반환
+		// 값이 조회되면 LIST에 값을 담아서 반환, 없으면 빈 LIST 객체를 반환(무조건 테스트는 통과하게되어있다.)
 		return session.selectList("memberMapper.selectAll");
 	}
 
