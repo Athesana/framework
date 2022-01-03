@@ -81,6 +81,7 @@
 	<!-- DB에서 사용하는 쿼리문들을 담는 mapper 파일을 등록하는 영역 -->
 	<mappers>
 		<mapper resource="mappers/member/member-mapper.xml"/>
+		<mapper resource="mappers/board/board-mapper.xml"/>		
 	</mappers>
 	
 </configuration>

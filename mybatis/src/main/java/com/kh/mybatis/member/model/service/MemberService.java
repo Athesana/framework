@@ -53,6 +53,7 @@ public class MemberService {
 		
 		if(member.getNo() != 0) {
 			// udpate
+			result = dao.updateMember(session, member);
 			
 		} else {
 			// insert
@@ -70,4 +71,28 @@ public class MemberService {
 		return result;
 	}
 
+	
+	public int delete(int no) {
+		int result = 0;
+		SqlSession session = getSession();
+		
+		result = dao.delete(session, no);
+		
+		if(result > 0) {
+			session.commit();
+		} else {
+			session.rollback();
+		}
+		
+		session.close();
+		
+		return result;
+	}
+
+	
+	
+	
+	
+	
+	
 }

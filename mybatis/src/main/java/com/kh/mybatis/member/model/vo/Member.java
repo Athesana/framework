@@ -11,15 +11,33 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Member {
 	private int no;
+	
 	private String id;
+	
 	private String password;
+	
 	private String role;
+	
 	private String name;
+	
 	private String phone;
+	
 	private String email;
+	
 	private String address;
+	
 	private String hobby;
+	
 	private String status;
+	
 	private Date enrollDate;
+	
 	private Date modifyDate;
+	
+	public Member(String id, String password, String name) {
+		super();
+		this.id = id;
+		this.password = password;
+		this.name = name;
+	}
 }

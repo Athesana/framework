@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Mapper 설정 파일임을 선언 -->
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="boardMapper">
+  
+	<select id="selectAll" resultType="com.kh.mybatis.board.model.vo.Board">
+		SELECT  B.NO, 
+				B.TITLE, 
+				M.ID, 
+				B.READCOUNT, 
+				B.ORIGINAL_FILENAME, 
+				B.RENAMED_FILENAME, 
+				B.CONTENT, 
+				B.CREATE_DATE, 
+				B.MODIFY_DATE
+		FROM BOARD B
+		JOIN MEMBER M ON(B.WRITER_NO = M.NO)
+		WHERE B.STATUS = 'Y'
+	</select>
+  
+  
+  
+  </mapper>
