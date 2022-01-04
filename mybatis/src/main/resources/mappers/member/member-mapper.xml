@@ -128,7 +128,7 @@
  	
  	<!-- 
  		외부에서 매개변수로 받는 값이 있으면 해당하는 매개변수의 타입을 지정해야 한다. -> parameterType은 string도 되고 map도 된다. 
- 		외부에서 매개변수로 받은 값은 쿼리문 내부에서 #{변수명}로 설정해서 값을 가져온다.
+ 		외부에서 매개변수로 받은 값은 쿼리문 내부에서 #{변수명}로 설정해서 값을 가져온다. 
  	-->
  	<select id="selectMemberById" parameterType="string" resultMap="memberResultMap">
  		<include refid="selectMemberSql" />

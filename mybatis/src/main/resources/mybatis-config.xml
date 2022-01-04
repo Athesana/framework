@@ -25,6 +25,7 @@
 	<!-- VO/DTD 객체의 타입에 별칭을 선언하는 영역 (오타가 있거나 정상적으로 기입되지 않으면 클릭되어 이동하지 않는다.) -->
 	<typeAliases>
 		<typeAlias type="com.kh.mybatis.member.model.vo.Member" alias="Member"/>
+		<typeAlias type="com.kh.mybatis.board.model.vo.Board" alias="Board"/>
 	</typeAliases>
 
 	<!-- 

@@ -78,8 +78,8 @@ class MemberServiceTest {
 	}
 	
 	/*
-	 * @ValueSource : 하나의 값을 넘길 때
-	 * @CsvSrouce : 여러 개의 값을 넘길 때
+	 * @ValueSource : 하나의 값을 넘길 때 -> 파라미터가 하나인 경우
+	 * @CsvSource : 여러 개의 값을 넘길 때 -> 파라미터가 여러 개인 경우(하나의 문자열 형태 안에 ,로 값을 구분한다.)
 	 */
 	
 	@ParameterizedTest
@@ -93,8 +93,9 @@ class MemberServiceTest {
 	public void insertMemberTest(String id, String password, String name) {
 		int result = 0;
 		Member findMember = null;
-		// Member.java에서 3개에 해당하는 생성자 만들고 나서 이렇게 만듬
+		// Member.java에서 3개에 해당하는 생성자 만들고 나서 밑에 member.set~~ 이거 생략하고 이렇게 만듬
 //		Member member = new Member("test1", "1234", "이방원");
+		
 		// @Csv에 값 넣고, 매개값 세팅하고 이렇게 바꿈
 		Member member = new Member(id, password, name);
 		
@@ -130,8 +131,10 @@ class MemberServiceTest {
 	@DisplayName("회원 정보 수정 테스트")
 	@Order(5)
 	public void updateMemberTest(String id, String password, String name) {
+		// ID를 가지고 멤버를 조회해와서 그 멤버를 수정해보자.
 		int result = 0;
 		Member member = null;
+		// 실제로 업데이트가 잘 되었는지 멤버를 찾아보자.
 		Member findMember = null;
 		
 		member = service.findMemberById(id);

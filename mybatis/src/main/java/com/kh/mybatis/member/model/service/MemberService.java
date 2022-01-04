@@ -1,11 +1,11 @@
 package com.kh.mybatis.member.model.service;
 
-import java.util.ArrayList;
+import static com.kh.mybatis.common.template.SqlSessionTemplate.getSession;
+
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
-import static com.kh.mybatis.common.SqlSessionTemplate.getSession;
 import com.kh.mybatis.member.model.dao.MemberDao;
 import com.kh.mybatis.member.model.vo.Member;
 

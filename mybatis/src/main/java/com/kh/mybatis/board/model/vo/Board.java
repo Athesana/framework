@@ -23,6 +23,8 @@ public class Board {
 	
 	private String content;
 	
+	private String type;
+	
 	private String originalFileName;
 	
 	private String renamedFileName;

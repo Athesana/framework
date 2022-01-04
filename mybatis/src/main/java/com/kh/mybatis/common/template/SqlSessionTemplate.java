@@ -1,4 +1,4 @@
-package com.kh.mybatis.common;
+package com.kh.mybatis.common.template;
 
 import java.io.IOException;
 import java.io.InputStream;

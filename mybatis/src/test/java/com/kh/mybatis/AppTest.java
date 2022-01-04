@@ -1,7 +1,6 @@
 package com.kh.mybatis;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.apache.ibatis.session.SqlSession;
 import org.junit.jupiter.api.BeforeAll;
@@ -10,7 +9,8 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.kh.mybatis.common.SqlSessionTemplate;
+import com.kh.mybatis.common.template.SqlSessionTemplate;
+
 
 @DisplayName("첫 번째 테스트 코드 작성")
 public class AppTest {

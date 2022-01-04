@@ -1,9 +1,5 @@
 package com.kh.mybatis;
 
-import org.apache.ibatis.session.SqlSession;
-
-import com.kh.mybatis.common.SqlSessionTemplate;
-
 /**
  * Hello world!
  *
