@@ -1,7 +1,6 @@
 package com.kh.mybatis.board.model.vo;
 
 import java.util.Date;
-import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,35 +9,18 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Board {
-	
+public class Reply {
 	private int no;
 	
-	private int rowNum;
+	private int boardNo;
 	
 	private int writerNo;
 	
 	private String writerId;
 	
-	private String title;
-	
-	private String content;
-	
-	private String type;
-	
-	private String originalFileName;
-	
-	private String renamedFileName;
-	
-	private int readCount;
-	
-	private String status;
-	
-	private List<Reply> replies;
+	private String content;	
 	
 	private Date createDate;
 	
 	private Date modifyDate;
-	
-	
 }

@@ -1,5 +1,8 @@
 package com.kh.mybatis.common.util;
 
+import lombok.Getter;
+
+@Getter
 public class PageInfo {
 
 	private int currentPage;
@@ -121,5 +124,8 @@ public class PageInfo {
 		
 		return endList > this.listCount ? this.listCount : endList;
 	}
+
+	
+	
 	
 }

@@ -9,6 +9,7 @@ import org.apache.ibatis.session.SqlSession;
 
 import com.kh.mybatis.board.model.dao.BoardDao;
 import com.kh.mybatis.board.model.vo.Board;
+import com.kh.mybatis.common.util.PageInfo;
 
 public class BoardService {
 
@@ -18,7 +19,7 @@ public class BoardService {
 		int count = 0;
 		SqlSession session = getSession();
 		
-		count = dao.getBoardCount(session, Arrays.asList(filters));
+		count = dao.getBoardCount(session, Arrays.asList(filters));  // filters가 list로 바뀌어서 dao로 넘어감
 		
 		session.close();
 		
@@ -36,15 +37,27 @@ public class BoardService {
 		return list;
 	}
 
-	public List<Board> findAll(String[] filters) {
+	public List<Board> findAll(String[] filters, PageInfo pageInfo) {
 		List<Board> list = null; 
 		SqlSession session = getSession();
 		
-		list = dao.findAll(session, filters);
+		list = dao.findAll(session, filters, pageInfo);
 		
 		session.close();
 		
 		return list;
+	}
+
+	// ▼ 단건 SELECT 조회
+	public Board findBoardByNo(int no) {
+		Board board = null;
+		SqlSession session = getSession();
+		
+		board = dao.findBoardByNo(session, no);
+		
+		session.close();
+		
+		return board;
 	}
 
 }
