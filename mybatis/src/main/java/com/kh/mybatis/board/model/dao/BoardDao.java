@@ -83,8 +83,28 @@ public class BoardDao {
 	}
 
 	public Board findBoardByNo(SqlSession session, int no) {
-		// 순서 1. 쿼리 실행
+
 		return session.selectOne("boardMapper.selectBoardByNo", no);
+	}
+
+	public int insertBoard(SqlSession session, Board board) {
+
+		return session.insert("boardMapper.insertBoard", board);
+	}
+
+	public int updateBoard(SqlSession session, Board board) {
+		
+		return session.update("boardMapper.updateBoard", board);
+	}
+
+	public int updateStatus(SqlSession session, int no, String status) {
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("no", no);
+		map.put("status", status);
+		
+		return session.update("boardMapper.updateStatus", map);
 	}
 
 

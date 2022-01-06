@@ -60,4 +60,42 @@ public class BoardService {
 		return board;
 	}
 
+	
+	public int save(Board board) {
+		int result = 0;
+		SqlSession session = getSession();
+		
+		// board의 PK 로 구분
+		if(board.getNo() != 0) {
+			result = dao.updateBoard(session, board);
+		} else {
+			result = dao.insertBoard(session, board);
+		}
+		
+		if(result > 0) {
+			session.commit();
+		} else {
+			session.rollback();
+		}
+		
+		session.close();
+		
+		return result;
+	}
+
+	public int delete(int no) {
+		int result = 0;
+		SqlSession session = getSession();
+		
+		result = dao.updateStatus(session, no, "N");
+		
+		if(result > 0) {
+			session.commit();
+		} else {
+			session.rollback();
+		}
+		
+		return result;
+	}
+
 }

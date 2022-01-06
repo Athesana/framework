@@ -37,7 +37,7 @@
   		<result property="modifyDate" column="MODIFY_DATE"/>
   	</resultMap>
 
-	<!-- ▼ Reply ResultMap -->
+	<!-- ▼ Reply ResultMap (for 2-2) -->
 	<resultMap type="Reply" id="replyResultMap">
   		<id property="no" column="NO"/>
   		<result property="boardNo" column="BOARD_NO"/>
@@ -47,24 +47,25 @@
   		<result property="modifyDate" column="MODIFY_DATE"/>
   	</resultMap>
   
-  
+  	<!-- ▼ boardDetailResultMap -->
   	<!-- 
-  		방법 1. 쿼리문을 각각 만들고(게시글 따로, 댓글 따로) 하나의 resultMap에서 매핑하는 방법
-  			- extends 속성 : 다른 resultMap을 상속하는 속성이다. (중복되는 부분 생략, 추가 작성하는 부분만 기입하면 된다.)
-  			- collection 태그 : Board 객체에 replies 필드가 컬렉션으로 되어있는데, "컬렉션"에 해당하는 필드에 조회 결과를 매핑할 때 사용한다.
-	  			- property 속성 : 매핑되는 객체 타입의 필드명
-	  			- javaType 속성 : 실제 컬렉션의 자바 타입, 어떤 자바 컬렉션 타입인지 명시해준다. 
-	  			- select 속성   : 컬렉션을 조회하고자 하는 쿼리문의 id
-	  			- column 속성   : 컬렉션을 조회하고자 하는 쿼리문의 파라미터를 전달할 때 사용한다.
-	  		* 1:1 관계인 "객체"를 조회해오고 싶다면 <association> 태그를 사용해서 매핑한다. (속성은 똑같다.)
+ 		방법 1. 쿼리문을 각각 만들고(게시글 따로, 댓글 따로) 하나의 resultMap에서 매핑하는 방법
+ 			- extends 속성 : 다른 resultMap을 상속하는 속성이다. (중복되는 부분 생략, 추가 작성하는 부분만 기입하면 된다.)
+ 			- <collection 태그> : Board 객체에 replies 필드가 컬렉션으로 되어있는데, "컬렉션"에 해당하는 필드에 조회 결과를 매핑할 때 사용한다.
+  			- property 속성 : 매핑되는 객체 타입의 필드명
+  			- javaType 속성 : 실제 컬렉션의 자바 타입, 어떤 자바 컬렉션 타입인지 명시해준다. 
+  			- select 속성   : 컬렉션을 조회하고자 하는 쿼리문의 id
+  			- column 속성   : 컬렉션을 조회하고자 하는 쿼리문의 파라미터를 전달할 때 사용한다. 여러 개일 경우는 ,(콤마)로 구분해서 넘긴다.
+  		* 1:1 관계인 "객체"를 조회해오고 싶다면 <association> 태그를 사용해서 매핑한다. (속성은 똑같다.)
   	 -->
+
   	<!-- 
   	<resultMap type="Board" extends="boardListResultMap" id="boardDetailResultMap">
   		<collection property="replies" javaType="arraylist" select="selectRepliesByBoardNo" column="NO"></collection>
   	</resultMap>
   	 -->
   	 
-  	<!-- ▼ Reply ResultMap -->
+  	<!-- ▼ Reply ResultMap (first) -->
   	<!-- 
   	<resultMap type="Reply" id="replyResultMap">
   		<id property="no" column="NO"/>
@@ -76,7 +77,9 @@
   	</resultMap>
   	 -->
   	 
-  	 <!-- 방법 2. 하나의 쿼리문을 만들어서 하나의 resultMap에서 매핑하는 방법 -->
+  	 <!-- 방법 2. 하나의 쿼리문을 만들어서 하나의 resultMap에서 매핑하는 방법 (댓글까지 포함하고 있는 게시글을 위한 매핑) -->
+  	 <!-- 방법 2-1. : 조회되는 컬럼을 별칭으로 구분해서 모두 매핑하기 -->
+  	 
   	 <!-- 
   	 <resultMap type="Board" id="boardDetailResultMap">
   	 	<id property="no" column="B_NO"/>
@@ -93,7 +96,7 @@
   	 </resultMap>
   	  -->
   	 
-  	 <!-- ▼ 댓글에 대한 ResultMap -->
+  	 <!-- ▼ Reply ResultMap (별칭이 R_로 시작하는 댓글 관련 컬럼을 Reply 객체로 매핑) -->
   	 <!-- 
   	 <resultMap type="Reply" id="replyResultMap">
   	 	<id property="no" column="R_NO"/>
@@ -104,7 +107,9 @@
   		<result property="modifyDate" column="R_MODIFY_DATE"/>
   	 </resultMap>
   	  -->
-  	 
+  	
+  	<!-- 방법 2-2. : 상속 시키고, columnPrefix="R_" 속성 추가하는 방법 -->
+  	
   	<resultMap type="Board" extends="boardListResultMap"  id="boardDetailResultMap">
   		<collection property="replies" javaType="arraylist" columnPrefix="R_" resultMap="replyResultMap"/>
   	</resultMap>
@@ -269,13 +274,12 @@
   	</select>
   	
   	<!-- 
-  		순서 2. 쿼리문
   		게시글 상세 보기 (댓글 포함)
   		
-  		방법 1. 쿼리문을 각각 만들고(게시글 따로, 댓글 따로) 하나의 resultMap에서 매핑하는 방법
+  		방법 1. 쿼리문을 각각 만들고(게시글 조회하는 쿼리 따로, 댓글 조회하는 쿼리 따로) 하나의 resultMap에서 매핑하는 방법
   	 -->
   	
-  	<!-- ▼ 게시글 상세 보기를 위한 No로 게시글 1건 찾기 -->
+  	<!-- ▼ 게시글 상세 보기를 위한 No로 게시글 1건 조회 -->
   	<!-- 
   	<select id="selectBoardByNo" parameterType="_int" resultMap="boardDetailResultMap">
   		<include refid="boardListSql" />
@@ -283,7 +287,7 @@
   	</select>
   	 -->
   
-  	<!-- ▼ 댓글 조회 -->
+  	<!-- ▼ 댓글 조회 (한 게시판에 해당하는 댓글 리스트 조회용 쿼리문) -->
   	<!-- 
   	<select id="selectRepliesByBoardNo" parameterType="_int" resultMap="replyResultMap">
  		SELECT  R.NO, 
@@ -328,5 +332,136 @@
 			LEFT OUTER JOIN MEMBER M2 ON(R.WRITER_NO = M2.NO)
 			WHERE B.STATUS = 'Y' AND B.NO = #{no}
   	 </select>
+  	 
+  	 <!-- ▼ insert -->
+  	 <!-- 
+  	 	 데이터를 insert 하고, PK 값을 받아오기 위해서 useGeneratedKeys, keyColumn, keyProperty 속성을 추가한다.
+ 			- useGeneratedKeys : insert 후에 PK 값을 받아올 수 있도록 허용하는 속성
+ 			- keyProperty 	   : PK 값이 담길 파라미터 객체의 필드명을 지정하는 속성
+ 			- keyColumn 	   : 실제 PK에 해당하는 컬럼을 지정하는 속성
+ 			
+ 		 ** insert할 때 시퀀스가 생성해주는 PK 값을 특정 파라미터로 전달되는 객체에 다시 전달해주겠다. KEY 값을 다시 가져오는걸 허용하겠다라는 뜻.
+ 		  	그럼 파라미터에 어느 컬럼에 담아줄 것인가?
+ 		  	실제 테이블 컬럼에서 어떤 컬럼이 PK야?
+  	  -->
+  	 <insert id="insertBoard" parameterType="Board" useGeneratedKeys="true" keyProperty="no" keyColumn="NO">
+  	 	INSERT INTO BOARD (
+  	 		NO,
+  	 		WRITER_NO,
+  	 		TITLE,
+  	 		CONTENT,
+  	 		ORIGINAL_FILENAME,
+  	 		RENAMED_FILENAME,
+  	 		READCOUNT,
+  	 		STATUS,
+  	 		TYPE,
+  	 		CREATE_DATE,
+  	 		MODIFY_DATE
+  	 	) VALUES ( 
+  	 		SEQ_BOARD_NO.NEXTVAL,
+  	 		#{writerNo},
+  	 		#{title},
+  	 		#{content},
+  	 		#{originalFileName},
+  	 		#{renamedFileName},
+  	 		DEFAULT,
+  	 		DEFAULT,
+  	 		DEFAULT,
+  	 		DEFAULT,
+  	 		DEFAULT
+  	 	)
+  	 </insert>
+  	
+  	<!-- ▼ update -->
+	<!-- ▼ 1. 기존 JDBC에서 사용하던 쿼리를 사용 (동적 쿼리를 적용하지 않고 게시글 수정하는 방법) -->
+	<!-- 
+  	 <update id="updateBoard" parameterType="Board">
+  	 	UPDATE BOARD 
+  	 	SET 
+  	 		TITLE = #{title},
+  	 		CONTENT = #{content},
+  	 		ORIGINAL_FILENAME = #{originalFileName},
+  	 		RENAMED_FILENAME = #{renamedFileName},
+  	 		MODIFY_DATE = SYSDATE
+  	 	WHERE 
+  	 		NO = #{no}
+  	 </update>
+	 -->
   
+	<!-- ▼ 2. 다중 if 구문을 활용 (동적 쿼리를 적용해서 게시글 수정하는 방법) -->
+	<!-- 
+  	<update id="updateBoard" parameterType="Board">
+  		UPDATE BOARD 
+  	 	SET 
+  	 		<if test="title != null">
+	  	 		TITLE = #{title},
+  	 		</if>
+  	 		<if test="content != null">
+  	 			CONTENT = #{content},
+  	 		</if>
+  	 		<if test="originalFileName != null">  	 		
+  	 			ORIGINAL_FILENAME = #{originalFileName},
+  	 		</if>
+  	 		<if test="renamedFileName != null">
+  	 			RENAMED_FILENAME = #{renamedFileName},
+  	 		</if>
+  	 		MODIFY_DATE = SYSDATE
+  	 	WHERE 
+  	 		NO = #{no}
+  	</update>
+	-->
+	 
+	<!-- ▼ 3. <set>과 다중 <if> 구문을 활용 -->
+	<!-- 
+  	<update id="updateBoard" parameterType="Board">
+  		UPDATE BOARD 
+  	 	<set> 
+  	 		<if test="title != null">
+	  	 		TITLE = #{title},
+  	 		</if>
+  	 		<if test="content != null">
+  	 			CONTENT = #{content},
+  	 		</if>
+  	 		<if test="originalFileName != null">  	 		
+  	 			ORIGINAL_FILENAME = #{originalFileName},
+  	 		</if>
+  	 		<if test="renamedFileName != null">
+  	 			RENAMED_FILENAME = #{renamedFileName},
+  	 		</if>
+  	 		MODIFY_DATE = SYSDATE
+  	 	</set>
+  	 	WHERE 
+  	 		NO = #{no}
+  	</update>
+	 -->
+  	
+  	<!-- ▼ 4. <trim>과 다중 <if> 구문을 활용 -->
+	<update id="updateBoard" parameterType="Board">
+		UPDATE BOARD
+		<trim prefix="set" prefixOverrides="," >
+			<if test="title != null">
+	  	 		TITLE = #{title},
+  	 		</if>
+  	 		<if test="content != null">
+  	 			CONTENT = #{content},
+  	 		</if>
+  	 		<if test="originalFileName != null">  	 		
+  	 			ORIGINAL_FILENAME = #{originalFileName},
+  	 		</if>
+  	 		<if test="renamedFileName != null">
+  	 			RENAMED_FILENAME = #{renamedFileName},
+  	 		</if>
+  	 		MODIFY_DATE = SYSDATE
+		</trim> 
+  	 	WHERE 
+  	 		NO = #{no}
+	</update>
+  	
+  	
+  	<!-- ▼ delete 이기는 하나, 내부적으로는 status만 update함 -->
+  	<update id="updateStatus" parameterType="map">
+  		UPDATE BOARD SET STATUS = #{status} WHERE NO = #{no}
+  	</update>
+  	
+
   </mapper>

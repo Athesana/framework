@@ -17,7 +17,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import com.kh.mybatis.member.model.vo.Member;
 
-@DisplayName("Member 테스트")
+@DisplayName("MemberService 테스트")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class MemberServiceTest {
 	

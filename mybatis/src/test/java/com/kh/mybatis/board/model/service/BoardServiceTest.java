@@ -7,7 +7,11 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -17,6 +21,8 @@ import org.junit.jupiter.params.provider.ValueSource;
 import com.kh.mybatis.board.model.vo.Board;
 import com.kh.mybatis.common.util.PageInfo;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@DisplayName("Board Service 테스트")
 class BoardServiceTest {
 	
 	private BoardService service;
@@ -47,6 +53,8 @@ class BoardServiceTest {
 			"null, null, null, 157"},
 		nullValues = "null"
 	)
+	@Order(1)
+	@DisplayName("게시글 목록 조회(검색 기능 적용) 테스트")
 	public void findAllTest(String writer, String title, String content, int expected) {
 		List<Board> list = null;
 		
@@ -75,8 +83,11 @@ class BoardServiceTest {
 	
 	// for 페이징 (전체 리스트 갯수를 알아오자, 페이징 하기 위해서는 전체 게시글 겟수를 알아야 하니까)
 	// 여기에서는 필터링에 걸리거나 검색해서 조회된 게시글의 수만 알아와야된다. (B1 은 152개, B2, B3 합쳐서 5개)
+	// filterProvider 메소드에서 반환해주는 값을 가지고 파라미터로 사용한다.
 	@ParameterizedTest
 	@MethodSource("filterProvider")
+	@Order(2)
+	@DisplayName("게시글 수 조회(필터 적용) 테스트)")
 	public void getBoardCountTest(String[] filters) {
 		int count = 0;
 		
@@ -88,6 +99,8 @@ class BoardServiceTest {
 	
 	@ParameterizedTest
 	@MethodSource("listProvider")
+	@Order(3)
+	@DisplayName("게시글 목록 조회(필터 적용) 테스트")
 	public void findAllTest(String[] filters, int currentPage, int expected) {
 		//String[] filters = new String[] {"B2", "B3"};  // request.getParameterValues("filter"); 배열 -> 리스트 객체 변환 -> 서비스에 넘기기
 		List<Board> list = null;
@@ -107,9 +120,11 @@ class BoardServiceTest {
 		assertThat(list.size()).isPositive().isEqualTo(expected);
 	}
 	
-	// 게시글 상세 조회 테스트
+
 	@ParameterizedTest
 	@ValueSource(ints = {122})
+	@Order(4)
+	@DisplayName("게시글 상세 조회(댓글 포함) 테스트")
 	public void findBoardByNoTest(int no) {
 		Board board = null;
 		
@@ -122,10 +137,68 @@ class BoardServiceTest {
 	}
 
 	
+	@Test
+	@Order(5)
+	@DisplayName("게시글 등록 테스트")
+	public void insertBoardTest() {
+		int result = 0;
+		Board board = new Board();
+		Board findBoard = null;
+		
+		board.setWriterNo(3);
+		board.setTitle("mybatis 게시글");
+		board.setContent("mybatis로 게시글 등록을 해봤습니다.");
+		
+		result = service.save(board);
+		findBoard = service.findBoardByNo(board.getNo());
+		
+		assertThat(result).isGreaterThan(0);
+		assertThat(findBoard).isNotNull().extracting("no").isEqualTo(board.getNo()) ;
+
+	}
+	
+	
+	@Test
+	@Order(6)
+	@DisplayName("게시글 수정 테스트")
+	public void updateBoardTest() {
+		int result = 0;
+		Board board = service.findBoardByNo(161);
+		Board findBoard = null;
+		
+		board.setTitle("mybatis 게시글 - 수정");
+		board.setContent("mybatis로 게시글 등록을 해봤습니다. - 수정");
+		board.setOriginalFileName(null);
+		board.setRenamedFileName(null);
+		
+		result = service.save(board);
+		findBoard = service.findBoardByNo(board.getNo());
+		
+		assertThat(result).isGreaterThan(0);
+		assertThat(findBoard).isNotNull().extracting("title").isEqualTo(board.getTitle());
+		
+	}
+	
+	
+	@Test
+	@Order(7)
+	@DisplayName("게시글 삭제 테스트")
+	public void deleteBoardTest() {
+		int result = 0;
+		Board board = null;
+		
+		result = service.delete(161);
+		board = service.findBoardByNo(161);
+		
+		assertThat(result).isPositive().isEqualTo(1);
+		assertThat(board).isNull();
+	}
+	
+	
 	/*
 	 * arguments는 Object... Object의 가변 인자로 넣어준 것이기 때문에 추가로 여러 객체를 매개 변수로 넘겨줄 수도 있다.
 	 * 메소드 소스 만들어서 반환해주는 Stream 객체를 가지고 MethodSource에서 필요한 파라미터로 가져올 수 있다.
-	 * Stream의 요소로 Arguments를 넣으면 되고, Arguments는 실제로 -> 이다.
+	 * Stream의 요소로 Arguments를 만들어서 넣어주면 되고, Arguments는 실제로 사용할 파라미터 값을 가변인자로 넣어줄 수 있는 객체이다.
 	 */
 	public static Stream<Arguments> filterProvider(){
 		return Stream.of(
