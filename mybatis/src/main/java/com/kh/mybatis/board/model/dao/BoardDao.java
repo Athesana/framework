@@ -98,9 +98,10 @@ public class BoardDao {
 	}
 
 	public int updateStatus(SqlSession session, int no, String status) {
-		
+		// 여러 개의 파라미터를 쿼리에 전달하고 싶을 때, Map 객체에 담아서 전달
 		Map<String, Object> map = new HashMap<>();
 		
+		// Key, Value = 파라미터에서 전달받은 no 변수에 들어있는 값
 		map.put("no", no);
 		map.put("status", status);
 		

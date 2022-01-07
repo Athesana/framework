@@ -11,11 +11,15 @@ import com.kh.mybatis.board.model.dao.BoardDao;
 import com.kh.mybatis.board.model.vo.Board;
 import com.kh.mybatis.common.util.PageInfo;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class BoardService {
 
 	private BoardDao dao = new BoardDao();
 	
 	public int getBoardCount(String[] filters) {
+		log.info("getBoardCount() 호출");
 		int count = 0;
 		SqlSession session = getSession();
 		
@@ -27,6 +31,7 @@ public class BoardService {
 	}
 	
 	public List<Board> findAll(String writer, String title, String content) {
+		log.info("findAll() 호출");
 		List<Board> list = null;
 		SqlSession session = getSession();
 		
@@ -38,6 +43,7 @@ public class BoardService {
 	}
 
 	public List<Board> findAll(String[] filters, PageInfo pageInfo) {
+		log.info("findAll(filters) 호출");
 		List<Board> list = null; 
 		SqlSession session = getSession();
 		

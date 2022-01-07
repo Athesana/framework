@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ▼ 가장 최상위 태그 -->
+<Configuration status="INFO">
+	<!-- ▼ 로그의 출력 위치를 지정한다. (콘솔, 파일, OutputStream, ...) -->
+	<Appenders> 
+		<Console name="console" target="SYSTEM_OUT">
+			<!-- ▼ 로그의 출력 포맷을 지정한다. -->
+  			<PatternLayout pattern="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{5} %M - %msg - %n "/>
+		</Console>
+		
+		<File name="file" fileName="./logs/member_log.txt">
+	  		<PatternLayout pattern="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{3} %M - %msg - %n "/>
+		</File>
+		
+		<File name="file2" fileName="./logs/board_log.txt">
+	  		<PatternLayout pattern="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{3} %M - %msg - %n "/>
+		</File>
+	</Appenders>
+	
+	<!-- ▼ 로깅이 일어나는 부분을 그룹화하는 역할을 한다. -->
+	<Loggers>
+		<!-- ▼ 일반적인 log 정책을 의미한다. -->
+		<!-- FATAL > ERROR > WARN > INFO > DEBUG > TRACE > ALL -->
+  		<Root level="DEBUG" additivity="false">
+	      	<AppenderRef ref="console"/>
+	      	<!-- 	      	
+	      	<AppenderRef ref="file"/>
+	      	 -->
+    	</Root>
+    	
+    	<!-- ▼ 추가로 필요한 로그 정책을 정의한다. (패키지의 범위를 설정) -->
+    	<Logger name="com.kh.mybatis.member" level="DEBUG" additivity="false">
+    		<AppenderRef ref="file"/>
+    	</Logger>
+    	
+    	<Logger name="com.kh.mybatis.board" level="DEBUG" additivity="false">
+    		<AppenderRef ref="file2"/>
+    	</Logger>
+  	</Loggers>
+</Configuration>

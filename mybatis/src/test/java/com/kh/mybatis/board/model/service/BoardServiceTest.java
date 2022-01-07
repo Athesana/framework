@@ -150,6 +150,9 @@ class BoardServiceTest {
 		board.setContent("mybatis로 게시글 등록을 해봤습니다.");
 		
 		result = service.save(board);
+		
+		// Board 객체에는 no의 값이 담겨있지 않다. -> null (실제 게시글은 작성됐지만, 따로 no의 값을 세팅하지 않았기 때문에)
+		// PK값인 no는 insert될 때 시퀀스에서 만들어주는 값이기 때문에
 		findBoard = service.findBoardByNo(board.getNo());
 		
 		assertThat(result).isGreaterThan(0);
@@ -163,11 +166,11 @@ class BoardServiceTest {
 	@DisplayName("게시글 수정 테스트")
 	public void updateBoardTest() {
 		int result = 0;
-		Board board = service.findBoardByNo(161);
+		Board board = service.findBoardByNo(166);
 		Board findBoard = null;
 		
 		board.setTitle("mybatis 게시글 - 수정");
-		board.setContent("mybatis로 게시글 등록을 해봤습니다. - 수정");
+		board.setContent("mybatis로 게시글 등록을 해보았습니다. - 수정");
 		board.setOriginalFileName(null);
 		board.setRenamedFileName(null);
 		
@@ -176,7 +179,6 @@ class BoardServiceTest {
 		
 		assertThat(result).isGreaterThan(0);
 		assertThat(findBoard).isNotNull().extracting("title").isEqualTo(board.getTitle());
-		
 	}
 	
 	

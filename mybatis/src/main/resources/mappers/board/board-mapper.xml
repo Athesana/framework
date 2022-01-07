@@ -336,12 +336,12 @@
   	 <!-- ▼ insert -->
   	 <!-- 
   	 	 데이터를 insert 하고, PK 값을 받아오기 위해서 useGeneratedKeys, keyColumn, keyProperty 속성을 추가한다.
- 			- useGeneratedKeys : insert 후에 PK 값을 받아올 수 있도록 허용하는 속성
+ 			- useGeneratedKeys : insert 후에 PK 값을 받아올 수 있도록 허용하는 속성(기본 값 : false)
  			- keyProperty 	   : PK 값이 담길 파라미터 객체의 필드명을 지정하는 속성
  			- keyColumn 	   : 실제 PK에 해당하는 컬럼을 지정하는 속성
  			
- 		 ** insert할 때 시퀀스가 생성해주는 PK 값을 특정 파라미터로 전달되는 객체에 다시 전달해주겠다. KEY 값을 다시 가져오는걸 허용하겠다라는 뜻.
- 		  	그럼 파라미터에 어느 컬럼에 담아줄 것인가?
+ 		 ** insert할 때 시퀀스가 생성해주는 PK 값(SEQ_BOARD_NO.NEXTVAL)을 특정 파라미터로 전달되는 객체에 다시 전달해주겠다. KEY 값을 다시 가져오는걸 허용하겠다라는 뜻.
+ 		  	그럼 key값을 파라미터에 어느 필드에 담아줄 것인가?
  		  	실제 테이블 컬럼에서 어떤 컬럼이 PK야?
   	  -->
   	 <insert id="insertBoard" parameterType="Board" useGeneratedKeys="true" keyProperty="no" keyColumn="NO">
@@ -438,23 +438,23 @@
   	<!-- ▼ 4. <trim>과 다중 <if> 구문을 활용 -->
 	<update id="updateBoard" parameterType="Board">
 		UPDATE BOARD
-		<trim prefix="set" prefixOverrides="," >
-			<if test="title != null">
-	  	 		TITLE = #{title},
-  	 		</if>
-  	 		<if test="content != null">
-  	 			CONTENT = #{content},
-  	 		</if>
-  	 		<if test="originalFileName != null">  	 		
-  	 			ORIGINAL_FILENAME = #{originalFileName},
-  	 		</if>
-  	 		<if test="renamedFileName != null">
-  	 			RENAMED_FILENAME = #{renamedFileName},
-  	 		</if>
-  	 		MODIFY_DATE = SYSDATE
-		</trim> 
-  	 	WHERE 
-  	 		NO = #{no}
+		<trim prefix="SET" suffixOverrides=",">
+    	    <if test="title != null">
+		 		TITLE = #{title},
+	 		</if>
+	 		<if test="content != null">
+		 		CONTENT = #{content},
+	 		</if>
+	 		<if test="originalFileName != null">
+		 		ORIGINAL_FILENAME = #{originalFileName},
+	 		</if>
+	 		<if test="renamedFileName != null">
+		 		RENAMED_FILENAME = #{renamedFileName},
+	 		</if>
+		 	MODIFY_DATE = SYSDATE 
+       	</trim>
+	 	WHERE 
+	 		NO = #{no}
 	</update>
   	
   	

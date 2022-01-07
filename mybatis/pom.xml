@@ -51,7 +51,13 @@
 	    <version>1.18.22</version>
 	    <scope>provided</scope>
 	</dependency>
-	  
+	
+	<!-- log4j, loggin 관련 라이브러리 -->
+	<dependency>
+	    <groupId>org.apache.logging.log4j</groupId>
+	    <artifactId>log4j-slf4j-impl</artifactId>
+	    <version>2.17.1</version>
+	</dependency>  
 	  
 	<!-- Test 관련 라이브러리 -->
 	<dependency>
