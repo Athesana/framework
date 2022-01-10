@@ -1,0 +1,25 @@
+[INFO ] 2022-01-07 12:35:09.648 [main] model.service.BoardService findAll - findAll() 호출 - 
+ [INFO ] 2022-01-07 12:35:09.741 [main] model.service.BoardService findAll - findAll() 호출 - 
+ [INFO ] 2022-01-07 12:35:09.786 [main] model.service.BoardService findAll - findAll() 호출 - 
+ [INFO ] 2022-01-07 12:35:09.834 [main] model.service.BoardService findAll - findAll() 호출 - 
+ [INFO ] 2022-01-07 12:35:09.907 [main] model.service.BoardService getBoardCount - getBoardCount() 호출 - 
+ [INFO ] 2022-01-07 12:35:09.960 [main] model.service.BoardService getBoardCount - getBoardCount() 호출 - 
+ [INFO ] 2022-01-07 12:35:10.012 [main] model.service.BoardService getBoardCount - getBoardCount() 호출 - 
+ [INFO ] 2022-01-07 12:35:10.059 [main] model.service.BoardService findAll - findAll(filters) 호출 - 
+ [INFO ] 2022-01-07 12:35:10.112 [main] model.service.BoardService getBoardCount - getBoardCount() 호출 - 
+ [INFO ] 2022-01-07 12:35:10.158 [main] model.service.BoardService findAll - findAll(filters) 호출 - 
+ [INFO ] 2022-01-07 12:35:10.209 [main] model.service.BoardService getBoardCount - getBoardCount() 호출 - 
+ [INFO ] 2022-01-07 12:35:10.258 [main] model.service.BoardService findAll - findAll(filters) 호출 - 
+ [INFO ] 2022-01-10 10:48:08.355 [main] model.service.BoardService findAll - findAll() 호출 - 
+ [INFO ] 2022-01-10 10:48:09.153 [main] model.service.BoardService findAll - findAll() 호출 - 
+ [INFO ] 2022-01-10 10:48:09.223 [main] model.service.BoardService findAll - findAll() 호출 - 
+ [INFO ] 2022-01-10 10:48:09.293 [main] model.service.BoardService findAll - findAll() 호출 - 
+ [INFO ] 2022-01-10 10:48:09.376 [main] model.service.BoardService getBoardCount - getBoardCount() 호출 - 
+ [INFO ] 2022-01-10 10:48:09.439 [main] model.service.BoardService getBoardCount - getBoardCount() 호출 - 
+ [INFO ] 2022-01-10 10:48:09.490 [main] model.service.BoardService getBoardCount - getBoardCount() 호출 - 
+ [INFO ] 2022-01-10 10:48:09.539 [main] model.service.BoardService findAll - findAll(filters) 호출 - 
+ [INFO ] 2022-01-10 10:48:09.593 [main] model.service.BoardService getBoardCount - getBoardCount() 호출 - 
+ [INFO ] 2022-01-10 10:48:09.635 [main] model.service.BoardService findAll - findAll(filters) 호출 - 
+ [INFO ] 2022-01-10 10:48:09.694 [main] model.service.BoardService getBoardCount - getBoardCount() 호출 - 
+ [INFO ] 2022-01-10 10:48:09.744 [main] model.service.BoardService findAll - findAll(filters) 호출 - 
+ 

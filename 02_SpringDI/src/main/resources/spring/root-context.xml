@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	
+	<!-- 오너 만들기 : Owner owner = new Owner("이산아", 20, new Cat("치치")); -->
+	<bean id="owner" class="com.kh.di.owner.Owner">
+		<constructor-arg name="name" value="이산아" />
+		<constructor-arg name="age" value="20" />
+		<constructor-arg name="pet" ref="dog" />
+	</bean>
+	
+	<!-- 고영희 bean 만들기 : Pet pet = new Cat("치치") -->
+	<bean id="cat" class="com.kh.di.pet.Cat">
+		<constructor-arg name="name" value="치치" />
+	</bean>
+	
+	<!-- 갱얼쥐 bean 만들기 : 
+		Pet pet = new Dog();
+		
+		pet.setName("댕댕이");
+	-->
+	<bean id="dog" class="com.kh.di.pet.Dog">
+		<property name="name" value="댕댕이"/>
+	</bean>
+	
+</beans>

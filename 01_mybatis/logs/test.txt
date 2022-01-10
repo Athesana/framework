@@ -1,0 +1,15 @@
+[INFO ] 2022-01-07 12:26:36.668 [main] model.service.MemberService getMemberCount - getMemberCount() 메소드 호출 - 
+ [DEBUG] 2022-01-07 12:26:37.366 [main] model.service.MemberService findAll - findAll() 메소드 호출 - 
+ [WARN ] 2022-01-07 12:26:37.484 [main] model.service.MemberService findMemberById - findMemberById() : 경고 문구 출력 - 
+ [WARN ] 2022-01-07 12:26:37.551 [main] model.service.MemberService findMemberById - findMemberById() : 경고 문구 출력 - 
+ [WARN ] 2022-01-07 12:26:37.686 [main] model.service.MemberService findMemberById - findMemberById() : 경고 문구 출력 - 
+ [WARN ] 2022-01-07 12:26:37.786 [main] model.service.MemberService findMemberById - findMemberById() : 경고 문구 출력 - 
+ [WARN ] 2022-01-07 12:26:37.834 [main] model.service.MemberService findMemberById - findMemberById() : 경고 문구 출력 - 
+ [WARN ] 2022-01-07 12:26:37.937 [main] model.service.MemberService findMemberById - findMemberById() : 경고 문구 출력 - 
+ [WARN ] 2022-01-07 12:26:37.987 [main] model.service.MemberService findMemberById - findMemberById() : 경고 문구 출력 - 
+ [WARN ] 2022-01-07 12:26:38.086 [main] model.service.MemberService findMemberById - findMemberById() : 경고 문구 출력 - 
+ [WARN ] 2022-01-07 12:26:38.131 [main] model.service.MemberService findMemberById - findMemberById() : 경고 문구 출력 - 
+ [WARN ] 2022-01-07 12:26:38.211 [main] model.service.MemberService findMemberById - findMemberById() : 경고 문구 출력 - 
+ [WARN ] 2022-01-07 12:26:38.256 [main] model.service.MemberService findMemberById - findMemberById() : 경고 문구 출력 - 
+ [WARN ] 2022-01-07 12:26:38.344 [main] model.service.MemberService findMemberById - findMemberById() : 경고 문구 출력 - 
+ 
