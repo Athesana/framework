@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- 고영희 bean 만들기 : Pet pet = new Cat("치치") 
+	<bean id="cat" class="com.kh.di.pet.Cat">
+		<constructor-arg name="name" value="치치" />
+	</bean>
+	
+	3. p 방식 : 갱얼쥐 bean 만들기 : 
+		Pet pet = new Dog();
+		
+		pet.setName("댕댕이");
+	<bean id="dog" class="com.kh.di.pet.Dog">
+		<property name="name" value="댕댕이"/>
+	</bean>
+	-->
+	
+	<!-- 생성자의 매개값이 하나일 경우 아래와 같이 작성이 가능하다. -->
+	<bean id="cat" class="com.kh.di.pet.Cat" c:_="고영희" />
+	<bean id="dog" class="com.kh.di.pet.Dog"  p:name="갱얼쥐" />
+	
+</beans>

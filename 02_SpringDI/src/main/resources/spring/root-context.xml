@@ -1,29 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:c="http://www.springframework.org/schema/c"
+    xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	
-	<!-- 오너 만들기 : Owner owner = new Owner("이산아", 20, new Cat("치치")); -->
+	<!-- 
+		1. 기존 방식 : 바디에 하위 태그로 넣기
+		오너 만들기 : Owner owner = new Owner("이산아", 20, new Cat("치치")); / name대신 index[0]~ 로도 사용가능 
 	<bean id="owner" class="com.kh.di.owner.Owner">
 		<constructor-arg name="name" value="이산아" />
 		<constructor-arg name="age" value="20" />
 		<constructor-arg name="pet" ref="dog" />
 	</bean>
+	-->
 	
-	<!-- 고영희 bean 만들기 : Pet pet = new Cat("치치") -->
+	<!-- 2. c 방식 : bean 태그에 속성으로 선언(스키마 반드시 추가해야 한다.) 
+	<bean id="owner" class="com.kh.di.owner.Owner" c:name="이산아" c:age="20" c:pet-ref="cat" />
+	-->
+	<!-- 
+	<bean id="owner" class="com.kh.di.owner.Owner" c:_0="홍길동" c:_1="30" c:_2-ref="dog" />
+	 -->
+		
+	<!-- 고영희 bean 만들기 : Pet pet = new Cat("치치") 
 	<bean id="cat" class="com.kh.di.pet.Cat">
 		<constructor-arg name="name" value="치치" />
 	</bean>
+	-->
 	
-	<!-- 갱얼쥐 bean 만들기 : 
+	<!-- 생성자의 매개값이 하나일 경우 아래와 같이 작성이 가능하다. -->
+	<!-- 
+	<bean id="cat" class="com.kh.di.pet.Cat" c:_="고영희" />
+	 -->
+	
+	<!-- 3. p 방식 : 갱얼쥐 bean 만들기 : 
 		Pet pet = new Dog();
 		
 		pet.setName("댕댕이");
-	-->
 	<bean id="dog" class="com.kh.di.pet.Dog">
 		<property name="name" value="댕댕이"/>
 	</bean>
+	-->
+	
+	<!-- 
+	<bean id="dog" class="com.kh.di.pet.Dog"  p:name="갱얼쥐" />
+	 -->
+	
+	<!-- c: 생성자로 주입하느냐 p:프로퍼티를 써서 setter로 주입하느냐 -->
+	
+	<!-- 다른 설정 파일을 가져오기 위해 사용되는 태그 -->
+	<import resource="owner-context.xml"/>
+	<import resource="pet-context.xml"/>
+	
 	
 </beans>

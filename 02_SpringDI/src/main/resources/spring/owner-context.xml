@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<!-- 
+		1. 기존 방식 : 바디에 하위 태그로 넣기
+		오너 만들기 : Owner owner = new Owner("이산아", 20, new Cat("치치")); / name대신 index[0]~ 로도 사용가능 
+	<bean id="owner" class="com.kh.di.owner.Owner">
+		<constructor-arg name="name" value="이산아" />
+		<constructor-arg name="age" value="20" />
+		<constructor-arg name="pet" ref="dog" />
+	</bean>
+	-->
+	
+	<!-- 2. c 방식 : bean 태그에 속성으로 선언(스키마 반드시 추가해야 한다.) 
+	<bean id="owner" class="com.kh.di.owner.Owner" c:_0="홍길동" c:_1="30" c:_2-ref="dog" />
+	-->
+	
+	<bean id="lee" class="com.kh.di.owner.Owner" c:name="이산아" c:age="20" c:pet-ref="cat" />
+	<bean id="hong" class="com.kh.di.owner.Owner" c:name="홍길동" c:age="30" c:pet-ref="dog" />
+		
+</beans>
