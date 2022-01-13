@@ -1,14 +1,15 @@
 package com.kh.di.weapon;
 
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Component("windForce")
 public class Bow implements Weapon {
 
+	@Value("${character.weapon.name:활}")
 	public String name;
 	
 	@Override

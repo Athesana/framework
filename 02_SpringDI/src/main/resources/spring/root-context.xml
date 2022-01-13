@@ -3,17 +3,19 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:c="http://www.springframework.org/schema/c"
     xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:context="http://www.springframework.org/schema/context"
+   	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+      http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	
 	<!-- 
 		1. 기존 방식 : 바디에 하위 태그로 넣기
-		오너 만들기 : Owner owner = new Owner("이산아", 20, new Cat("치치")); / name대신 index[0]~ 로도 사용가능 
+		오너 만들기 : Owner owner = new Owner("이산아", 20, new Cat("치치")); / name대신 index="0"~ 로도 사용가능 
 	<bean id="owner" class="com.kh.di.owner.Owner">
 		<constructor-arg name="name" value="이산아" />
 		<constructor-arg name="age" value="20" />
-		<constructor-arg name="pet" ref="dog" />
+		<constructor-arg name="pet" ref="cat" />
 	</bean>
 	-->
 	
@@ -53,6 +55,17 @@
 	<!-- 다른 설정 파일을 가져오기 위해 사용되는 태그 -->
 	<import resource="owner-context.xml"/>
 	<import resource="pet-context.xml"/>
+	
+	<!-- ▼ Spring Annotation 실습을 위한 곳 시작 -->
+	<!-- 
+		@Component를 붙이고 최소한의 설정을 위해 작성하는 부분
+			- component-scan : component-scanning을 활성화하는 속성 (cf. 자바에서는 @ComponentScan )
+			- base-package부터 하위 패키지 클래스를 다 뒤져가면서 @Component 붙어있는 클래스를 객체로 만들고 ApplicationContext에서 빈으로 등록하고 관리한다.
+			- @Component만 붙이고 끝이 아니라 context.xml 파일에 최소한의 경로를 지정함
+	 -->
+	<context:component-scan base-package="com.kh.di" />
+	<!-- ▼ @PropertySource 어노테이션 생략 후 스프링 프로퍼티 플레이스 홀더를 통해서 properties 파일의 값을 읽어오는 방법 -->
+	<context:property-placeholder location="classpath:character.properties,classpath:driver.properties"/>
 	
 	
 </beans>
