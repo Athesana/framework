@@ -9,17 +9,48 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<bean id="character" class="com.kh.aop.character.Character" p:name="이산아" p:level="99" p:weapon-ref="sword"/>
+	<!-- 
+		AspectJ 어노테이션을 사용한 Aspect 적용을 위한 프록시 설정	(어노테이션 기반으로 AOP를 적용할 수 있도록 활성화 하는 태그) 
+	-->
+	<aop:aspectj-autoproxy proxy-target-class="true"/>
+
+	<bean id="character" class="com.kh.aop.character.Character" p:name="이산아" p:level="99" p:weapon-ref="bow"/>
 	
 	<bean id="sword" class="com.kh.aop.weapon.Sword" p:name="정기점검" />
 	
+	<bean id="bow" class="com.kh.aop.weapon.Bow" p:name="최종병기 활" />
+	
+	
+	<!-- 
+		Aspect로 지정할 객체는 반드시 빈으로 선언되어야 한다.
+		(xml, annotation 기반으로 설정 시에도 모두 빈으로 선언되어야 한다.)
+	 -->
 	<bean id="characterAspect" class="com.kh.aop.aspect.CharacterAspect" />
 	
+			<!-- 
 	<aop:config>
 		<aop:aspect ref="characterAspect">
+			<aop:pointcut 
+				id="questPointCut" 
+				expression="execution(* com.kh.aop.character.Character.quest(..))" />
+			
 			<aop:before 
 				pointcut="execution(* com.kh.aop.character.Character.quest(..))"
 				method="beforeQuest"/>
+			<aop:after 
+				pointcut="execution(* com.kh.aop.character.Character.quest(..))"
+				method="afterQuest"/>
+			<aop:after-returning
+				pointcut-ref="questPointCut" 
+				method="questSuccess"/>
+			<aop:after-throwing 
+				pointcut-ref="questPointCut" 
+				method="questFail"/>
+			
+			<aop:around 
+				pointcut-ref="questPointCut"
+				method="questAdvice"/>
 		</aop:aspect>
 	</aop:config>
+			 -->
 </beans>

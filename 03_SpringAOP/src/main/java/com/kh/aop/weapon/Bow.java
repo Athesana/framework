@@ -8,7 +8,11 @@ public class Bow implements Weapon {
 	public String name;
 	
 	@Override
-	public String attack() {
+	public String attack() throws Exception {
+		
+		if (true) {
+		throw new Exception();
+	}
 		return "민첩하게 활을 쏜다";
 	}
 

@@ -13,10 +13,15 @@ public class Character {
 	
 	private Weapon weapon;
 	
-	public String quest(String questName) {
+	public String quest(String questName) throws Exception {
+	
+//		if(true) {
+//			throw new Exception("Quest 처리 중 예외 발생");
+//		}
+		
+		System.out.println(questName + "퀘스트 진행 중..");
 		return questName + " 퀘스트 진행 중";
 	}
 
-	// quest 메소드 호출 전후로 필요한 로직을 AOP를 통해 구현해보자.
 
 }
