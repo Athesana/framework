@@ -11,6 +11,8 @@
 
 	<!-- 
 		AspectJ 어노테이션을 사용한 Aspect 적용을 위한 프록시 설정	(어노테이션 기반으로 AOP를 적용할 수 있도록 활성화 하는 태그) 
+		스프링은 AOP를 위한 프록시 객체를 생성할 때 실제 생성할 Bean 객체가 인터페이스를 구현하고 있으면, 인터페이스를 이용해서 프록시를 생성한다.
+		Bean 객체가 인터페이스를 구현하고 있을 때 인터페이스가 아닌 클래스를 이용해서 프록시를 생성하고 싶다면 proxy-target-class="true" 속성을 추가한다.
 	-->
 	<aop:aspectj-autoproxy proxy-target-class="true"/>
 

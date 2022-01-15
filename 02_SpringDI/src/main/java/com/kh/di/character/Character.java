@@ -34,7 +34,8 @@ public class Character {
 	/*
 	 * @Component로 등록하면 ApplicationContext가 해당하는 클래스로 Bean객체를 만들어서 보관한다.
 	 *  - 빈 생성시 (value)로 별도의 ID를 지정해주지 않으면 클래스 이름에서 앞글자를 소문자로 바꾼 ID를 갖는다. (character)
-	 *  - BUT, ApplicationContext는 모든 패키지를 뒤지면서 @컴포넌트를 찾는 것이 아니기 때문에 최소한의 설정을 지정해야 한다.
+	 *  - BUT, ApplicationContext는 모든 패키지를 뒤지면서 @컴포넌트를 찾는 것이 아니기 때문에 최소한의 설정을 지정해야 한다. 
+	 *  	-> RootConfig.java에 @ComponentScan("경로") 
 	 */
 
 	/*

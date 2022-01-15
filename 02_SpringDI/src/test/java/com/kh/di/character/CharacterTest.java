@@ -22,7 +22,7 @@ class CharacterTest {
 	/*
 	 * @Autowired
 	 * - Applicationcontext 클래스 타입과 일치하는 타입(여기에서는 Character)과 일치하는 빈을 자동으로 주입받고 싶을 때 사용
-	 * - required는 빈 주입이 필수로 진행되어야 하는지 설정하는지 옵션이다.  
+	 * - required는 빈 주입이 필수로 진행되어야 하는지 설정하는지 옵션이다. (권장하지는 않는다.)
 	 * - 기본 값 true : 주입되어야 하는 Applicationcontext 상에 Bean이 존재하지 않으면 에러가 발생한다. 
 	 * - 해결 위해서 required 속성을 false로 하면 된다. 그러면 빈이 Applicationcontext 상에 존재하지 않으면 NULL을 주입한다. 
 	 */

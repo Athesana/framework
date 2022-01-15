@@ -29,7 +29,7 @@ class CharacterTest {
 	 * 			2-2) After-Throwing Advice  : Advice 대상 메소드가 예외를 던진 후에 어드바이스 기능을 수행한다.
 	 * 			3) Around Advice : Advice 대상 메소드 호출 전과 후에 Advice 기능을 수행한다.
 	 * 	4. PointCut
-	 * 		- Advice가 적용된 Joinpoint의 영역을 좁히는 일을 한다.
+	 * 		- Advice가 적용될 Joinpoint의 영역을 좁히는 일을 한다.
 	 * 		- Advice는 Aspect가 해야하는 '작업'과 '언제' 그 작업을 수행해야 하는지 정의하는 것이라면, PointCut는 '어디에' Advice를 적용할지 정의하는 것이다.
 	 * 		- Spring에서는 PointCut 지정하기 위해서 AspectJ PointCut 표현식을 통해서 지정할 수 있다.
 	 * 
@@ -43,7 +43,10 @@ class CharacterTest {
 	 *   		" * "  : 메소드에서 리턴하는 타입의 모든 값을 표현한다.
 	 *   		" .. " : 매개 값의 개수가 0개 이상을 의미한다.
 	 *   	args(파라미터) : 타겟 메소드에 전달되는 파라미터 값을 Advice에 전달하기 위한 파라미터를 지정한다.
+	 *   	bean(빈ID) : 포인트 커트 표현식 내에서 빈ID로 특정 빈을 지정할 수 있다.
+	 *   	@annotation(어노테이션이름(풀패키지명)) : 주어진 어노테이션을 갖는 조인 포인트를 지정한다.
 	 */
+	
 	@Autowired
 	private Character character;
 	
