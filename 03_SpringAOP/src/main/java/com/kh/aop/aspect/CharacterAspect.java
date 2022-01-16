@@ -37,7 +37,7 @@ public class CharacterAspect {
 //			returning = "result"
 //	)
 	public void questSuccess(String questName, String result) {
-//		result : 결과를 담을 변수
+//		result : 타겟 객체의 메소드가 실행되고 return해주는 결과를 담을 변수
 //		퀘스트 수행이 완료된 후에 필요한 부가 작업을 수행한다.
 		System.out.println(result);
 		System.out.println(questName  + "퀘스트 수행 완료!");
@@ -48,19 +48,29 @@ public class CharacterAspect {
 //			throwing = "exception"
 //	)
 	public void questFail(String questName, Exception exception) {
+//		throwing : Advice에서 에러가 발생하면 던지는 예외 객체를 받는다.
 //		퀘스트 수행 중에 예외를 던졌을 때 필요한 부가 작업을 수행한다.
 		System.out.println(exception.getMessage());
 		System.out.println("에러가 발생했습니다. 다시 시도하세요.");
 	}
 		
 	/*
-	 * ProceedingJoinPoint 객체는 파라미터로 필수 값이다.
-	 * jp 인터페이스의 proceed() 메소드를 호출하고, 이 메소드 전후를 기점으로 수행할 기능이 나뉜다.
+	 * Around Advice는 필수적으로 ProceedingJoinPoint 인터페이스를 매개 값으로 갖는다.
+	 * jp 인터페이스의 proceed() 메소드를 호출 : 실제 타겟 객체의 메소드를 실행한다.
+	 * proceed() 메소드 전후를 기점으로 수행할 기능이 나뉜다.
 	 * 
-	 * 메소드에 리턴값이 있으면 proceed()에서 리턴값을 받아줘야 한다. 
-	 * 이 때, Object를 매개값을 가지기 때문에 타입으로 형변환 시켜야 한다.
+	 * << 타겟 객체의 메소드에 리턴값이 있을 경우 >>
+	 * 타겟 객체인(Character)에 실행시키고 있는 메소드(quest)에 리턴값이 있으면 proceed()에서 리턴값을 받아줘야 한다. 
+	 * 근데 원래 questAdice는 void였기 때문에 String으로 반환할 수 있도록 바꿨음.
+	 * WHY? quest 메소드를 직접 호출하는것이 아니라, questAdvice에서 proceed를 호출해서 캐릭터의 quest 메소드를 호출하는 것
+	 * 호출되고 나면 반환되는 값이 있으면 그걸 proceed()에서 받아줘야 Test에도 값을 전달할 수 있어서 NULL이 안나오게 될 것임
+	 * Test에서 quest 메소드를 호출할 때 questAdivce가 먼저 호출되기 때문에 결과로 result를 리턴하면 그 값이 quest()에도 전달된다.
+	 * 이 때, Object(최상위)를 매개값을 가지기 때문에 자식 타입으로 형변환 시켜야 한다.
 	 * 
-	 * 매개 값 이동 경로 : test -> characterAspect -> chararcter -> result?
+	 * << 타겟 객체의 메소드에 파라미터 값을 변경해서 전달해줄 경우 >>
+	 * JoinPoint 객체는 Advice 대상이 되는 JoinPoint 타겟 메소드에대한 정보를 가지고 있다.
+	 * jp.getArgs()[0] : 실제 quest 메소드에 전달해주는 매개값에 대한 정보를 가져 올 수 있고, Object 타입의 배열이라서 형변환하면된다.
+	 * 
 	 */
 	@Around("execution(* com.kh.aop.character.Character.quest(..))")
 	public String questAdvice(ProceedingJoinPoint jp) {
@@ -73,7 +83,7 @@ public class CharacterAspect {
 			// before Advice에 대한 기능 수행
 			System.out.println("퀘스트 준비 중..");
 			
-			// proceed()메소드를 통해서 타겟 객체(캐릭터)의 메소드(quest)를 실행시킨다.
+			// proceed()메소드를 통해서 타겟 객체(Character)의 메소드(quest)를 실행시킨다.
 //			jp.proceed();
 		
 			// 타겟 객체의 메소드에 리턴값이 있을 경우
