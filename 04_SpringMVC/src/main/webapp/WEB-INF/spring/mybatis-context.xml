@@ -36,5 +36,21 @@
 		p:basePackage="com.kh.mvc.*.model.dao"
 	/>
 	
+	<!-- 
+		트랜잭션 처리 방법
+		1. 트랜잭션 매니저 등록하기
+		2. @Transanctional을 사용해서 트랜잭션 처리가될 수 있도록 servlet-context.xml 설정 파일에 <tx:annotation-driven /> 태그를 등록한다.
+	-->
+
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager" 
+		p:dataSource-ref="dataSource"
+	/>
+
+	
+
+
+
+
+
 
 </beans>

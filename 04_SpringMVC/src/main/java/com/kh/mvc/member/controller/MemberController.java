@@ -1,9 +1,14 @@
 package com.kh.mvc.member.controller;
 
+import java.lang.annotation.ElementType;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
@@ -24,7 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
-// Model 객체에 loginMember라는 키값으로 객체가 추가되면 해당 객체를 세션 스코프에 추가하는 어노테이션이다.
+// Model 객체에 loginMember라는 키값으로 객체가 추가되면 해당 객체를 세션 스코프에 추가하는 어노테이션이다. ({ElementType.TYPE} 이라서 클래스에만 붙는다.)
 @SessionAttributes("loginMember")
 public class MemberController {
 	/*
@@ -189,9 +195,9 @@ public class MemberController {
 	
 	2. @SessionAttributes과 ModelAndView 객체
 		1) @SessionAttributes("키값")
-			- Model 객체에 "키값"에 해당하는 Attribute를 Session Scope까지 범위를 확장시킨다.
+			- Model 객체(requst scope)에 "키값"에 해당하는 Attribute를 Session Scope까지 범위를 확장시킨다.
 		2) ModelAndView
-			- 컨트롤러에서 뷰로 전달할 데이터와 뷰에 정보를 담는 객체이다.
+			- 컨트롤러에서 뷰로 전달할 데이터와 뷰에 정보(redirect인지 forwarding인지)를 담는 객체이다.
 			- addAttribute() 메소드가 아니라, addObject() 메소드를 사용해서 데이터를 담을 수 있다.
  */
 
@@ -241,12 +247,67 @@ public class MemberController {
 	}
 	
 	@PostMapping("/member/enroll")
-	public String enroll(@ModelAttribute Member member) {
+	public ModelAndView enroll(ModelAndView model, @ModelAttribute Member member) {
 		
 		log.info(member.toString());
 		
-		return "member/enroll";
+		int result = service.save(member);
+		
+		if(result > 0) {
+			model.addObject("msg", "회원 가입이 정상적으로 완료되었습니다.");
+			model.addObject("location", "/");
+		} else {
+			model.addObject("msg", "회원 가입이 실패했습니다. 다시 시도해 주세요.");
+			model.addObject("location", "/member/enroll");
+		}
+		
+		model.setViewName("common/msg");
+		
+		return model;
+	}
+	
+	/*
+	 * @ResponseBody
+	 * 	- 일반적으로 컨트롤러 메소드의 반환형이 String 타입이면 view의 이름을 반환한다. 
+	 * 	- @ResponseBody 어노테이션이 붙은 String 반환은 해당 요청을 보낸 클라이언트에 전달한 데이터를 의미한다.
+	 * 
+	 * jackson라이브러리 
+	 * 	- 자바 객체를 JSON 형태의 데이터로 변환하기 위한 라이브러리(GSON, jsonSimple)
+	 * 	- 스프링에서는 jackson 라이브러리를 추가하고 @ResponseBody 어노테이션을 사용하면, 리턴되는 객체를 자동으로 json으로 변경해서 응답으로 내려준다.
+	 * 
+	 * @RestController
+	 * 	- 해당 컨트롤러의 모든 메소드에서 반환하는 경우 사용한다. 상단 클래스에 선언해놓으면 메소드마다 @ResponseBody 어노테이션 사용하지 않아도된다.
+	 * 	- @Controller와 @ResponseBody를 합쳐놓은 역할을 수행한다.
+	 */
+	@GetMapping("/member/jsonTest")
+	@ResponseBody
+	public Object jsonTest() {
+//		Map<String, String> map = new HashMap<>();
+		
+//		map.put("hi", "hello");
+
+//		return map;
+		
+		return new Member("Athesana", "1234", "이산아");
+	}
+
+	
+	@PostMapping("/member/idCheck")
+	@ResponseBody
+//	@ResponseBody를 사용하지 않고 ResoponseEntity를 사용하는 방법
+//	public ResponseEntity<Map<String, Boolean>> idCheck(@RequestParam("userId") String userId){
+//		return new ResponseEntity<Map<String,Boolean>>(map, HttpStatus.OK); }
+	public Object idCheck(@RequestParam("userId") String userId) {
+		
+		Map<String, Boolean> map = new HashMap<>();
+		
+		log.info("{}", userId);
+		
+		map.put("duplicate", service.isDuplicateID(userId));
+		
+		return map;
 	}
 	
 
+	
 }

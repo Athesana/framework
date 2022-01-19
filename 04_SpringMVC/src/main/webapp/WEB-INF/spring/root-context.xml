@@ -10,5 +10,6 @@
 		<context:property-placeholder location="classpath:driver.properties"/>
 		
 		<import resource="mybatis-context.xml"/>
+		<import resource="security-context.xml"/>
 		
 </beans>

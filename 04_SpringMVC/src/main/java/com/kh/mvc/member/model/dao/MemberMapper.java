@@ -11,4 +11,6 @@ public interface MemberMapper {
 
 	Member findMemberById(@Param("id") String id);
 
+	int insertMember(Member member);
+
 }
