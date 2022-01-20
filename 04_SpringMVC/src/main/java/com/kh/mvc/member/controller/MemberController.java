@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
@@ -127,7 +128,7 @@ public class MemberController {
 			- 요청 파라미터가 많은 경우 객체 타입으로 파라미터를 넘겨받는 방법이다.
 			- 스프링 컨테이너가 "기본 생성자"를 통해서 객체를 생성하고 파라미터 name 속성과 동일한 필드명을 가진 필드에 값을 주입해준다.
 			- 단, 기본 생성자(없으면 아예 객체를 생성하지 못하기 때문에 500 에러)와 Setter(없으면 null로 출력)가 존재해야 한다.
-			- 파라미터 name 속성과 넘겨받을 객체의 필드명이 동일하면, setter를 통해서 주입시켜준다. 
+			- ** 파라미터 name 속성과 넘겨받을 객체의 필드명이 동일하면, setter를 통해서 자동으로 주입시켜준다. 
 			- @ModelAttribute 어노테이션을 생략해도 객체로 매핑되지만 가독성을 위해 적어주는 것 추천!
 			
 	
@@ -167,10 +168,10 @@ public class MemberController {
 			session.setAttribute("loginMember", member);
 			
 			 // return "home"; 
-			 //  - forwarding 방식으로 ViewResolver에 의해 /WEB-INF/views/home.jsp로 포워딩 한다. 
+			 //  - forwarding 방식으로 ViewResolver에 의해 /WEB-INF/views/home.jsp로 포워딩 한다.(URL 변경X)
 			 
 			 // return "redirect:/";
-			 //  - redirect 방식으로 여기서 리턴한 경로로 브라우저에서 다시 요청하도록 반환한다.
+			 //  - redirect 방식으로 여기서 리턴한 경로로 브라우저에서 다시 요청하도록 반환한다. (URL 변경O)
 			
 			return "redirect:/";
 		} else {
@@ -226,7 +227,7 @@ public class MemberController {
 	}
 	
 	// 로그아웃 처리 (SessionStatus 객체 사용)
-	@PostMapping("/logout")
+	@GetMapping("/logout")
 	public String logout(SessionStatus status) {
 		
 		log.info("status.isComplete() : {}", status.isComplete());
@@ -307,6 +308,85 @@ public class MemberController {
 		
 		return map;
 	}
+	
+	
+//	▼ myPage의 정보수정
+	
+	@GetMapping("/member/myPage")
+	public String myPage() {
+		
+		return "/member/myPage";
+	}
+	
+	
+	@PostMapping("/member/update")
+	public ModelAndView update(
+			ModelAndView model,
+			@SessionAttribute(name="loginMember") Member loginMember, 
+			@ModelAttribute Member member) {
+		
+		int result = 0;
+			
+		member.setNo(loginMember.getNo());
+		
+		result = service.save(member);
+		
+		if(result > 0) {
+			model.addObject("loginMember", service.findMemberById(loginMember.getId()));
+			model.addObject("msg", "회원 정보 수정을 완료했습니다.");
+			model.addObject("location", "/member/myPage");
+		} else {
+			model.addObject("msg", "회원 정보 수정이 실패했습니다.");			
+			model.addObject("location", "/member/myPage");
+		}
+		
+		model.setViewName("common/msg");
+		
+		return model;
+	}
+	
+	
+//	▼ myPage의 회원탈퇴
+	
+	@GetMapping("/member/delete")
+	public ModelAndView delete(
+			ModelAndView model,
+			@SessionAttribute(name="loginMember") Member loginMember) {
+		
+		int result = 0;
+		
+		result = service.delete(loginMember.getNo());
+		
+		if(result > 0) {
+			model.addObject("msg", "회원 탈퇴가 정상적으로 처리되었습니다.");
+			model.addObject("location", "/logout");
+		} else {
+			model.addObject("msg", "회원 탈퇴에 실패하였습니다.");
+			model.addObject("location", "/member/myPage");
+		}
+		
+		model.setViewName("common/msg");
+		
+		return model;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 
 	

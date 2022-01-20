@@ -25,9 +25,11 @@
 </c:if>
 
 <c:if test="${ !empty loginMember }">
-	${ loginMember.name }님, 안녕하세요.
+	<a href="${ path }/member/myPage">
+		${ loginMember.name }
+	</a>님, 안녕하세요.
 	
-	<form action="${ path }/logout" method="post">
+	<form action="${ path }/logout" method="get">
 		<button type="submit">로그아웃</button>
 	</form>
 </c:if>

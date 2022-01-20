@@ -126,7 +126,6 @@
  		UPDATE MEMBER 
  		SET 
  			NAME = #{name},
- 			PASSWORD = #{password},
  			PHONE = #{phone},
  			EMAIL = #{email},
  			ADDRESS = #{address},
@@ -137,7 +136,11 @@
  	</update>
  
  	<delete id="deleteMember" parameterType="_int">
-		DELETE FROM MEMBER WHERE NO = #{no}
+ 		UPDATE MEMBER
+ 		SET
+ 			STATUS = 'N'
+ 		WHERE
+ 			NO = #{no}
  	</delete>
  	
  
