@@ -1,0 +1,485 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.kh.mvc.board.model.dao.BoardMapper">
+  
+  	<sql id="boardListSql">
+  		SELECT  B.NO, 
+		        B.TITLE, 
+		        M.ID, 
+		        B.READCOUNT, 
+		        B.ORIGINAL_FILENAME, 
+		        B.RENAMED_FILENAME, 
+		        B.CONTENT, 
+		        B.TYPE, 
+		        B.CREATE_DATE, 
+		        B.MODIFY_DATE
+		FROM BOARD B
+		JOIN MEMBER M ON(B.WRITER_NO = M.NO)
+		WHERE B.STATUS = 'Y'
+  	</sql>
+  
+  	<!-- ▼ Board ResultMap -->
+  	<resultMap type="Board" id="boardListResultMap">
+  		<id property="no" column="NO"/>
+  		<result property="title" column="TITLE"/>
+  		<result property="writerId" column="ID"/>
+  		<result property="readCount" column="READCOUNT"/>
+  		<result property="originalFileName" column="ORIGINAL_FILENAME"/>
+  		<result property="renamedFileName" column="RENAMED_FILENAME"/>
+  		<result property="content" column="CONTENT"/>
+  		<result property="type" column="TYPE"/>  		
+  		<result property="createDate" column="CREATE_DATE"/>
+  		<result property="modifyDate" column="MODIFY_DATE"/>
+  	</resultMap>
+
+	<!-- ▼ Reply ResultMap (for 2-2) -->
+	<resultMap type="Reply" id="replyResultMap">
+  		<id property="no" column="NO"/>
+  		<result property="boardNo" column="BOARD_NO"/>
+  		<result property="writerId" column="ID"/>
+  		<result property="content" column="CONTENT"/>
+  		<result property="createDate" column="CREATE_DATE"/>
+  		<result property="modifyDate" column="MODIFY_DATE"/>
+  	</resultMap>
+  
+  	<!-- ▼ boardDetailResultMap -->
+  	<!-- 
+ 		방법 1. 쿼리문을 각각 만들고(게시글 따로, 댓글 따로) 하나의 resultMap에서 매핑하는 방법
+ 			- extends 속성 : 다른 resultMap을 상속하는 속성이다. (중복되는 부분 생략, 추가 작성하는 부분만 기입하면 된다.)
+ 			- <collection 태그> : Board 객체에 replies 필드가 컬렉션으로 되어있는데, "컬렉션"에 해당하는 필드에 조회 결과를 매핑할 때 사용한다.
+  			- property 속성 : 매핑되는 객체 타입의 필드명
+  			- javaType 속성 : 실제 컬렉션의 자바 타입, 어떤 자바 컬렉션 타입인지 명시해준다. 
+  			- select 속성   : 컬렉션을 조회하고자 하는 쿼리문의 id
+  			- column 속성   : 컬렉션을 조회하고자 하는 쿼리문의 파라미터를 전달할 때 사용한다. 여러 개일 경우는 ,(콤마)로 구분해서 넘긴다.
+  		* 1:1 관계인 "객체"를 조회해오고 싶다면 <association> 태그를 사용해서 매핑한다. (속성은 똑같다.)
+  	 -->
+
+  	<!-- 
+  	<resultMap type="Board" extends="boardListResultMap" id="boardDetailResultMap">
+  		<collection property="replies" javaType="arraylist" select="selectRepliesByBoardNo" column="NO"></collection>
+  	</resultMap>
+  	 -->
+  	 
+  	<!-- ▼ Reply ResultMap (first) -->
+  	<!-- 
+  	<resultMap type="Reply" id="replyResultMap">
+  		<id property="no" column="NO"/>
+  		<result property="boardNo" column="BOARD_NO"/>
+  		<result property="writerId" column="ID"/>
+  		<result property="content" column="CONTENT"/>
+  		<result property="createDate" column="CREATE_DATE"/>
+  		<result property="modifyDate" column="MODIFY_DATE"/>
+  	</resultMap>
+  	 -->
+  	 
+  	 <!-- 방법 2. 하나의 쿼리문을 만들어서 하나의 resultMap에서 매핑하는 방법 (댓글까지 포함하고 있는 게시글을 위한 매핑) -->
+  	 <!-- 방법 2-1. : 조회되는 컬럼을 별칭으로 구분해서 모두 매핑하기 -->
+  	 
+  	 <!-- 
+  	 <resultMap type="Board" id="boardDetailResultMap">
+  	 	<id property="no" column="B_NO"/>
+  	 	<result property="title" column="B_TITLE"/>
+  	 	<result property="writerId" column="B_ID"/>
+  	 	<result property="readCount" column="B_READCOUNT"/>
+  	 	<result property="originalFileName" column="B_ORIGINAL_FILENAME"/>
+  	 	<result property="renamedFileName" column="B_RENAMED_FILENAME"/>
+  	 	<result property="content" column="B_CONTENT"/>
+  	 	<result property="type" column="B_TYPE"/>
+  	 	<result property="createDate" column="B_CREATE_DATE"/>
+  	 	<result property="modifyDate" column="B_MODIFY_DATE"/>
+  	 	<collection property="replies" javaType="arraylist" resultMap="replyResultMap"/>
+  	 </resultMap>
+  	  -->
+  	 
+  	 <!-- ▼ Reply ResultMap (별칭이 R_로 시작하는 댓글 관련 컬럼을 Reply 객체로 매핑) -->
+  	 <!-- 
+  	 <resultMap type="Reply" id="replyResultMap">
+  	 	<id property="no" column="R_NO"/>
+  		<result property="boardNo" column="R_BOARD_NO"/>
+  		<result property="writerId" column="R_ID"/>
+  		<result property="content" column="R_CONTENT"/>
+  		<result property="createDate" column="R_CREATE_DATE"/>
+  		<result property="modifyDate" column="R_MODIFY_DATE"/>
+  	 </resultMap>
+  	  -->
+  	
+  	<!-- 방법 2-2. : 상속 시키고, columnPrefix="R_" 속성 추가하는 방법 -->
+  	
+  	<resultMap type="Board" extends="boardListResultMap"  id="boardDetailResultMap">
+  		<collection property="replies" javaType="arraylist" columnPrefix="R_" resultMap="replyResultMap"/>
+  	</resultMap>
+  	
+
+	<select id="findAll" parameterType="map" resultMap="boardListResultMap">
+		<!-- 
+		1. 다중 <if>를 활용한 검색 기능 구현 (#{map의 key값} 이것을 통해서 value값을 불러온다.)
+		SELECT  B.NO, 
+				B.TITLE, 
+				M.ID, 
+				B.READCOUNT, 
+				B.ORIGINAL_FILENAME, 
+				B.RENAMED_FILENAME, 
+				B.CONTENT, 
+				B.CREATE_DATE, 
+				B.MODIFY_DATE
+		FROM BOARD B
+		JOIN MEMBER M ON(B.WRITER_NO = M.NO)
+		WHERE B.STATUS = 'Y'
+		
+		<if test="writer != null">
+		  AND M.ID LIKE '%' || #{writer} || '%'
+		</if>
+		
+		<if test="title != null">
+		  AND B.TITLE LIKE '%' || #{title} || '%'
+		</if>
+		
+		<if test="content != null">
+		  AND B.CONTENT LIKE '%' || #{content} || '%'
+		</if>
+		-->
+		<!-- 넘겨받는 파라미터인 writer, title, content는 Map의 key 값이다. null이 아니면 밑의 구문을 포함시키고, null이면 포함시키지 않는다. -->
+		
+		<!-- 
+		2. <where>와 다중<if>를 활용한 검색 기능 구현 
+		 -->
+		<!--  
+		SELECT  B.NO, 
+				B.TITLE, 
+				M.ID, 
+				B.READCOUNT, 
+				B.ORIGINAL_FILENAME, 
+				B.RENAMED_FILENAME, 
+				B.CONTENT, 
+				B.CREATE_DATE, 
+				B.MODIFY_DATE
+		FROM BOARD B
+		JOIN MEMBER M ON(B.WRITER_NO = M.NO)
+		
+		<where>
+			<if test="writer != null">
+			  M.ID LIKE '%' || #{writer} || '%'
+			</if>
+			
+			<if test="title != null">
+			  AND B.TITLE LIKE '%' || #{title} || '%'
+			</if>
+			
+			<if test="content != null">
+			  AND B.CONTENT LIKE '%' || #{content} || '%'
+			</if>
+		 
+		 	AND B.STATUS = 'Y'
+		 </where>
+		-->
+		
+		<!-- 
+		3. <trim>과 다중<if>를 활용한 검색 기능 구현
+		-->
+		
+		<!--
+		SELECT  B.NO, 
+				B.TITLE, 
+				M.ID, 
+				B.READCOUNT, 
+				B.ORIGINAL_FILENAME, 
+				B.RENAMED_FILENAME, 
+				B.CONTENT, 
+				B.CREATE_DATE, 
+				B.MODIFY_DATE
+		FROM BOARD B
+		JOIN MEMBER M ON(B.WRITER_NO = M.NO)
+		
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="writer != null">
+			  M.ID LIKE '%' || #{writer} || '%'
+			</if>
+			
+			<if test="title != null">
+			  AND B.TITLE LIKE '%' || #{title} || '%'
+			</if>
+			
+			<if test="content != null">
+			  AND B.CONTENT LIKE '%' || #{content} || '%'
+			</if>
+		 
+		 	AND B.STATUS = 'Y'
+		</trim>
+		-->
+		
+		<!-- 
+		4. <choose>, <when>, <otherwise>를 활용한 검색 기능 구현 : 주어진 구문 중 한가지만 수행하고자 할 경우
+		 -->
+		 <include refid="boardListSql" />
+		
+		 <choose>
+		 	<when test="writer != null">
+		 		AND M.ID LIKE '%' || #{writer} ||'%'
+		 	</when>
+		 	<when test="title != null">
+		 		AND B.TITLE LIKE '%' || #{title} ||'%'
+		 	</when>
+		 	<when test="content != null">
+		 		AND B.CONTENT LIKE '%' || #{content} ||'%'
+		 	</when>
+		 	<!--
+		 	<otherwise>
+		 		 위의 조건 중 하나도 만족하지 않는 경우에도 불구하고 포함되어야 할 쿼리가 있다면 여기에 작성한다. 
+		 	</otherwise>
+		 	-->
+		 </choose>
+		
+	</select>
+  
+  
+  	<!-- ▼ 필터 기능 -->
+  	<select id="selectBoardListByFilters" parameterType="map" resultMap="boardListResultMap">
+		<include refid="boardListSql" />
+		<if test="filters != null">
+			<!-- 
+				AND B.TYPE IN ('B2', 'B3')
+				
+				위 결과를 만들기 위해서 foreach 태그를 사용한다.
+					- collection 속성 : 파라미터로 넘어온 배열이나 list를 지정한다. (WHY? foreach는 배열이나 list만 사용 가능)
+					- item : 배열이나 list의 각 요소들의 값을 담을, 값이 들어가는 변수이다. (임의로 지정, 반복할 때 쓸 이름)
+					- index : 반복 횟수(0 부터 시작 한다.)
+					- open : foreach 반복 시작 전에 출력할 문자열을 지정한다.
+					- close : 반복 종료 전에 출력할 문자열을 지정한다.
+					- separator : 반복할 때마다 반복을 구분할 구분자를 지정한다.
+			 -->
+		  AND B.TYPE IN 
+		  <foreach collection="filters" item="filter" open="(" separator="," close=")" >
+		  	#{filter}
+		  </foreach>	
+		</if>
+  	</select>
+  
+  	<!-- ▼ 필터링 된 게시글에 대해서 페이징을 위한 카운트 가져오기 -->
+  	<select id="getBoardCountByFilters" parameterType="map" resultType="_int">
+  		SELECT  COUNT(*) 
+				FROM BOARD 
+				WHERE STATUS = 'Y'
+		<if test="list != null">
+		  AND TYPE IN 
+		  <foreach collection="list" item="filter" open="(" separator="," close=")" >
+		  	#{filter}
+		  </foreach>	
+		</if>
+
+  	</select>
+  	
+  	<!-- 
+  		게시글 상세 보기 (댓글 포함)
+  		
+  		방법 1. 쿼리문을 각각 만들고(게시글 조회하는 쿼리 따로, 댓글 조회하는 쿼리 따로) 하나의 resultMap에서 매핑하는 방법
+  	 -->
+  	
+  	<!-- ▼ 게시글 상세 보기를 위한 No로 게시글 1건 조회 -->
+  	<!-- 
+  	<select id="selectBoardByNo" parameterType="_int" resultMap="boardDetailResultMap">
+  		<include refid="boardListSql" />
+  		AND B.NO = #{no}
+  	</select>
+  	 -->
+  
+  	<!-- ▼ 댓글 조회 (한 게시판에 해당하는 댓글 리스트 조회용 쿼리문) -->
+  	<!-- 
+  	<select id="selectRepliesByBoardNo" parameterType="_int" resultMap="replyResultMap">
+ 		SELECT  R.NO, 
+        		R.BOARD_NO, 
+		        R.CONTENT, 
+		        M.ID, 
+		        R.CREATE_DATE, 
+		        R.MODIFY_DATE
+		FROM REPLY R
+		JOIN MEMBER M ON(R.WRITER_NO = M.NO)
+		WHERE R.STATUS='Y' AND BOARD_NO = #{boardNo}
+		ORDER BY R.NO DESC
+  	</select>
+  	 -->
+  	 
+  	 
+  	 <!-- 
+  		게시글 상세 보기 (댓글 포함)
+  		
+  		방법 2. 하나의 쿼리문을 만들어서 하나의 resultMap에서 매핑하는 방법
+  	 -->
+  	 <select id="selectBoardByNo" parameterType="_int" resultMap="boardDetailResultMap">
+			SELECT B.NO AS,
+			       B.TITLE, 
+			       M.ID, 
+			       B.READCOUNT, 
+			       B.ORIGINAL_FILENAME, 
+			       B.RENAMED_FILENAME, 
+			       B.CONTENT,
+			       B.TYPE,
+			       B.CREATE_DATE, 
+			       B.MODIFY_DATE,
+			       R.NO AS R_NO, 
+			       R.BOARD_NO AS R_BOARD_NO, 
+			       R.CONTENT AS R_CONTENT, 
+			       M2.ID AS R_ID, 
+			       R.CREATE_DATE AS R_CREATE_DATE, 
+			       R.MODIFY_DATE AS R_MODIFY_DATE
+			FROM BOARD B
+			JOIN MEMBER M ON(B.WRITER_NO = M.NO)
+			LEFT OUTER JOIN REPLY R ON(B.NO = R.BOARD_NO)
+			LEFT OUTER JOIN MEMBER M2 ON(R.WRITER_NO = M2.NO)
+			WHERE B.STATUS = 'Y' AND B.NO = #{no}
+  	 </select>
+  	 
+  	 <!-- MVC 패턴 - 페이징 -->
+  	 <select id="getBoardCount" parameterType="map" resultType="_int">
+ 	 	  	SELECT  COUNT(*) 
+			FROM BOARD 
+			WHERE STATUS = 'Y'
+			<choose>
+		 	<when test="writer != null">
+		 		AND M.ID LIKE '%' || #{writer} ||'%'
+		 	</when>
+		 	<when test="title != null">
+		 		AND B.TITLE LIKE '%' || #{title} ||'%'
+		 	</when>
+		 	<when test="content != null">
+		 		AND B.CONTENT LIKE '%' || #{content} ||'%'
+		 	</when>
+		 </choose>
+  	 </select>
+  	 
+  	 
+  	 <!-- ▼ insert -->
+  	 <!-- 
+  	 	 데이터를 insert 하고, PK 값을 받아오기 위해서 useGeneratedKeys, keyColumn, keyProperty 속성을 추가한다.
+ 			- useGeneratedKeys : insert 후에 PK 값을 받아올 수 있도록 허용하는 속성(기본 값 : false)
+ 			- keyProperty 	   : PK 값이 담길 파라미터 객체의 필드명을 지정하는 속성
+ 			- keyColumn 	   : 실제 PK에 해당하는 컬럼을 지정하는 속성
+ 			
+ 		 ** insert할 때 시퀀스가 생성해주는 PK 값(SEQ_BOARD_NO.NEXTVAL)을 특정 파라미터로 전달되는 객체에 다시 전달해주겠다. KEY 값을 다시 가져오는걸 허용하겠다라는 뜻.
+ 		  	그럼 key값을 파라미터에 어느 필드에 담아줄 것인가?
+ 		  	실제 테이블 컬럼에서 어떤 컬럼이 PK야?
+  	  -->
+  	 <insert id="insertBoard" parameterType="Board" useGeneratedKeys="true" keyProperty="no" keyColumn="NO">
+  	 	INSERT INTO BOARD (
+  	 		NO,
+  	 		WRITER_NO,
+  	 		TITLE,
+  	 		CONTENT,
+  	 		ORIGINAL_FILENAME,
+  	 		RENAMED_FILENAME,
+  	 		READCOUNT,
+  	 		STATUS,
+  	 		TYPE,
+  	 		CREATE_DATE,
+  	 		MODIFY_DATE
+  	 	) VALUES ( 
+  	 		SEQ_BOARD_NO.NEXTVAL,
+  	 		#{writerNo},
+  	 		#{title},
+  	 		#{content},
+  	 		#{originalFileName},
+  	 		#{renamedFileName},
+  	 		DEFAULT,
+  	 		DEFAULT,
+  	 		DEFAULT,
+  	 		DEFAULT,
+  	 		DEFAULT
+  	 	)
+  	 </insert>
+  	
+  	<!-- ▼ update -->
+	<!-- ▼ 1. 기존 JDBC에서 사용하던 쿼리를 사용 (동적 쿼리를 적용하지 않고 게시글 수정하는 방법) -->
+	<!-- 
+  	 <update id="updateBoard" parameterType="Board">
+  	 	UPDATE BOARD 
+  	 	SET 
+  	 		TITLE = #{title},
+  	 		CONTENT = #{content},
+  	 		ORIGINAL_FILENAME = #{originalFileName},
+  	 		RENAMED_FILENAME = #{renamedFileName},
+  	 		MODIFY_DATE = SYSDATE
+  	 	WHERE 
+  	 		NO = #{no}
+  	 </update>
+	 -->
+  
+	<!-- ▼ 2. 다중 if 구문을 활용 (동적 쿼리를 적용해서 게시글 수정하는 방법) -->
+	<!-- 
+  	<update id="updateBoard" parameterType="Board">
+  		UPDATE BOARD 
+  	 	SET 
+  	 		<if test="title != null">
+	  	 		TITLE = #{title},
+  	 		</if>
+  	 		<if test="content != null">
+  	 			CONTENT = #{content},
+  	 		</if>
+  	 		<if test="originalFileName != null">  	 		
+  	 			ORIGINAL_FILENAME = #{originalFileName},
+  	 		</if>
+  	 		<if test="renamedFileName != null">
+  	 			RENAMED_FILENAME = #{renamedFileName},
+  	 		</if>
+  	 		MODIFY_DATE = SYSDATE
+  	 	WHERE 
+  	 		NO = #{no}
+  	</update>
+	-->
+	 
+	<!-- ▼ 3. <set>과 다중 <if> 구문을 활용 -->
+	<!-- 
+  	<update id="updateBoard" parameterType="Board">
+  		UPDATE BOARD 
+  	 	<set> 
+  	 		<if test="title != null">
+	  	 		TITLE = #{title},
+  	 		</if>
+  	 		<if test="content != null">
+  	 			CONTENT = #{content},
+  	 		</if>
+  	 		<if test="originalFileName != null">  	 		
+  	 			ORIGINAL_FILENAME = #{originalFileName},
+  	 		</if>
+  	 		<if test="renamedFileName != null">
+  	 			RENAMED_FILENAME = #{renamedFileName},
+  	 		</if>
+  	 		MODIFY_DATE = SYSDATE
+  	 	</set>
+  	 	WHERE 
+  	 		NO = #{no}
+  	</update>
+	 -->
+  	
+  	<!-- ▼ 4. <trim>과 다중 <if> 구문을 활용 -->
+	<update id="updateBoard" parameterType="Board">
+		UPDATE BOARD
+		<trim prefix="SET" suffixOverrides=",">
+    	    <if test="title != null">
+		 		TITLE = #{title},
+	 		</if>
+	 		<if test="content != null">
+		 		CONTENT = #{content},
+	 		</if>
+	 		<if test="originalFileName != null">
+		 		ORIGINAL_FILENAME = #{originalFileName},
+	 		</if>
+	 		<if test="renamedFileName != null">
+		 		RENAMED_FILENAME = #{renamedFileName},
+	 		</if>
+		 	MODIFY_DATE = SYSDATE 
+       	</trim>
+	 	WHERE 
+	 		NO = #{no}
+	</update>
+  	
+  	
+  	<!-- ▼ delete 이기는 하나, 내부적으로는 status만 update함 -->
+  	<update id="updateStatus" parameterType="map">
+  		UPDATE BOARD SET STATUS = #{status} WHERE NO = #{no}
+  	</update>
+  	
+
+  </mapper>
