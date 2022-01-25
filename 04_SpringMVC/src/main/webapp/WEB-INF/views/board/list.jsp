@@ -15,10 +15,10 @@
 <body>
 	<h2>게시판 </h2>
 	<div id="board-list-container">
-		<c:if test="${ !empty loginMember }">
+
 			<button type="button" id="btn-add"
 				onclick="location.href='${ path }/board/write'">글쓰기</button>	
-		</c:if>
+
 
 		<table id="tbl-board">
 			<tr>
@@ -39,7 +39,7 @@
 			<c:if test="${ !empty list }">
 				<c:forEach var="board" items="${ list }">
 					<tr>
-						<td>${ board.rowNum }</td>
+						<td>${ board.no }</td>
 						<td>
 							<a href="${ path }/board/view?no=${ board.no }">
 								${ board.title }

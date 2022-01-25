@@ -14,4 +14,6 @@ public interface BoardMapper {
 
 	List<Board> findAll(RowBounds rowBounds);
 
+	int insertBoard(Board board);
+
 }

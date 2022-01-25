@@ -11,4 +11,6 @@ public interface BoardService {
 
 	List<Board> getBoardList(PageInfo pageInfo);
 
+	int save(Board board);
+
 }
