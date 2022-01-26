@@ -32,6 +32,12 @@ public class BoardServiceImpl implements BoardService {
 		
 		return mapper.findAll(rowBounds);
 	}
+	
+	@Override
+	public Board findBoardByNo(int no) {
+		
+		return mapper.selectBoardByNo(no);
+	}
 
 	@Override
 	@Transactional 
@@ -47,5 +53,7 @@ public class BoardServiceImpl implements BoardService {
 		
 		return result;
 	}
+
+
 
 }

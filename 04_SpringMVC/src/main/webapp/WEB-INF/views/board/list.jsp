@@ -15,10 +15,10 @@
 <body>
 	<h2>게시판 </h2>
 	<div id="board-list-container">
-
+		<c:if test="${ !empty loginMember }">
 			<button type="button" id="btn-add"
 				onclick="location.href='${ path }/board/write'">글쓰기</button>	
-
+		</c:if>
 
 		<table id="tbl-board">
 			<tr>
