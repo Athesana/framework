@@ -19,5 +19,8 @@ public interface BoardMapper {
 
 	int insertBoard(Board board);
 
+	int updateBoard(Board board);
+
+	int updateStatus(@Param("no") int no, @Param("status")String status);
 
 }

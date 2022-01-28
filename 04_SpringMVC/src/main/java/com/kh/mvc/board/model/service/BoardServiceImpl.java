@@ -46,12 +46,20 @@ public class BoardServiceImpl implements BoardService {
 		
 		if(board.getNo() != 0) {
 			// update
+			result = mapper.updateBoard(board);
 		} else {
 			// insert
 			result = mapper.insertBoard(board);
 		}
 		
 		return result;
+	}
+
+	@Override
+	@Transactional
+	public int delete(int no) {
+		
+		return mapper.updateStatus(no, "N");
 	}
 
 

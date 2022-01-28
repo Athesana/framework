@@ -1,5 +1,6 @@
 package com.kh.mvc.board.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -214,13 +215,114 @@ public class BoardController {
 	}
 	
 	
+	@GetMapping("/update")
+	public ModelAndView update(
+			@SessionAttribute("loginMember") Member loginMember,
+			ModelAndView model, @RequestParam("no") int no) {
+		
+		Board board = service.findBoardByNo(no);
+		
+		if(loginMember.getNo() == board.getWriterNo()) {
+			
+			// ▼ model : 컨트롤러에서 처리한 결과를 jsp에게 전달하는 객체
+			// 서비스를 통해 조회해온 board 객체를 jsp에게 포워딩한다.
+			model.addObject("board", board);
+			model.setViewName("board/update");
+		} else {
+			model.addObject("msg", "잘못된 접근입니다.");
+			model.addObject("location", "/board/list");
+			model.setViewName("common/msg");
+		}
+
+		return model;
+	}
 	
 	
+	@PostMapping("/update")
+	public ModelAndView update(ModelAndView model, @ModelAttribute Board board, 
+			@RequestParam("upfile") MultipartFile upfile,
+			@SessionAttribute("loginMember") Member loginMember) {
+		
+		int result = 0;
+		
+		if(loginMember.getId().equals(board.getWriterId())) {
+			
+			if(upfile != null && !upfile.isEmpty()) {
+
+				String renamedFileName = null; 
+				String location = null;
+				
+				try {
+					location = resourceLoader.getResource("resources/upload/board").getFile().getPath();
+					
+					if(board.getRenamedFileName() != null) {
+						// 이전에 업로드된 첨부파일을 삭제
+						FileProcess.delete(location + "/" + board.getRenamedFileName());
+					}				
+					
+					renamedFileName = FileProcess.save(upfile, location);
+
+					if(renamedFileName != null) {
+						board.setOriginalFileName(upfile.getOriginalFilename());
+						// ▼ FileProcess.save하고 리턴받은 값
+						board.setRenamedFileName(renamedFileName);
+					}
+					
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+			}
+			
+			result = service.save(board);
+			
+			if(result > 0) {
+				model.addObject("msg", "게시글이 정상적으로 수정되었습니다.");
+				model.addObject("location", "/board/view?no=" + board.getNo());
+			} else {
+				model.addObject("msg", "게시글 수정이 실패했습니다.");
+				model.addObject("location", "/board/update?no=" + board.getNo());
+			}
+			
+		} else {
+			model.addObject("msg", "잘못된 접근입니다.");
+			model.addObject("location", "/board/list");
+		}
+		
+		model.setViewName("common/msg");
+		
+		return model;
+	}
 	
 	
-	
-	
-	
+	@GetMapping("/delete")
+	public ModelAndView delete(ModelAndView model, @SessionAttribute("loginMember") Member loginMember, @RequestParam("no") int no) {
+		
+		Board board = service.findBoardByNo(no);
+		
+		int result = 0;
+		
+		if(loginMember.getNo() == board.getWriterNo()) {
+			result = service.delete(board.getNo());
+
+			if(result > 0) {
+				model.addObject("msg", "게시글이 정상적으로 삭제되었습니다.");
+				model.addObject("location", "/board/list");
+			} else {
+				model.addObject("msg", "게시글 삭제가 실패했습니다.");
+				model.addObject("location", "/board/view?no=" + board.getNo());
+			}
+			
+		} else {			
+			model.addObject("msg", "잘못된 접근입니다.");
+			model.addObject("location", "/board/list");
+			
+		}
+
+		model.setViewName("common/msg");		
+		
+		return model;
+	}
 	
 	
 	

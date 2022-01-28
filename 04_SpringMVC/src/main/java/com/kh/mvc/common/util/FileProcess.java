@@ -42,5 +42,16 @@ public class FileProcess {
 		
 		return renamedFileName;
 	}
+
+	public static void delete(String location) {
+		log.info("location : {}", location);
+		
+		File file = new File(location);
+		
+		if(file.exists()) {
+			file.delete();
+		}
+		
+	}
 	
 }

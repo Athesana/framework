@@ -21,6 +21,13 @@
 	</a>
 </p>
 
+<!-- 
+	참고
+	- Context Root(webapp) 내부의 리소소들은 아래와 같은 방법으로 다운로드도 가능 
+
+<a href="${ path }/resources/upload/board/20220125_122027936.png" download="종.png">다운로드</a> 
+ -->
+
 <c:if test="${ empty loginMember }">
 	<form action="${ path }/login"  method="post">
 		<label>아이디 : <input type="text" name="id" required /></label>

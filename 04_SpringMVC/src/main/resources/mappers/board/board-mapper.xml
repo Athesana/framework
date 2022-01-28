@@ -27,6 +27,7 @@
   		<id property="no" column="NO"/>
   		<result property="title" column="TITLE"/>
   		<result property="writerId" column="ID"/>
+  		<result property="writerNo" column="WRITER_NO"/>
   		<result property="readCount" column="READCOUNT"/>
   		<result property="originalFileName" column="ORIGINAL_FILENAME"/>
   		<result property="renamedFileName" column="RENAMED_FILENAME"/>
@@ -188,6 +189,7 @@
   	 <select id="selectBoardByNo" parameterType="_int" resultMap="boardDetailResultMap">
 			SELECT B.NO AS,
 			       B.TITLE, 
+			       B.WRITER_NO, 
 			       M.ID, 
 			       B.READCOUNT, 
 			       B.ORIGINAL_FILENAME, 

@@ -73,7 +73,8 @@
 			
 			<mapping path="/member/**"/>
 			<mapping path="/board/write"/>
-			<mapping path="/board/view"/>
+			<mapping path="/board/update"/>
+			<mapping path="/board/delete"/>			
 			
 			<!-- 인터셉터를 제외시킬 요청(컨트롤러) 선택 -->
 			<exclude-mapping path="/member/enroll"/>
