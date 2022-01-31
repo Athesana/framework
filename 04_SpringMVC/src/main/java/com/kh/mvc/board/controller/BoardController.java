@@ -215,6 +215,7 @@ public class BoardController {
 	}
 	
 	
+	// ▼ 게시글 수정
 	@GetMapping("/update")
 	public ModelAndView update(
 			@SessionAttribute("loginMember") Member loginMember,
@@ -224,7 +225,7 @@ public class BoardController {
 		
 		if(loginMember.getNo() == board.getWriterNo()) {
 			
-			// ▼ model : 컨트롤러에서 처리한 결과를 jsp에게 전달하는 객체
+			// ▼ model : 컨트롤러에서 처리한 결과(데이터)를 jsp에게 전달하는 객체
 			// 서비스를 통해 조회해온 board 객체를 jsp에게 포워딩한다.
 			model.addObject("board", board);
 			model.setViewName("board/update");
@@ -263,6 +264,7 @@ public class BoardController {
 					renamedFileName = FileProcess.save(upfile, location);
 
 					if(renamedFileName != null) {
+						// ▼ 실제 사용자가 upload한 파일명
 						board.setOriginalFileName(upfile.getOriginalFilename());
 						// ▼ FileProcess.save하고 리턴받은 값
 						board.setRenamedFileName(renamedFileName);
@@ -295,6 +297,7 @@ public class BoardController {
 	}
 	
 	
+	// ▼ 게시글 삭제
 	@GetMapping("/delete")
 	public ModelAndView delete(ModelAndView model, @SessionAttribute("loginMember") Member loginMember, @RequestParam("no") int no) {
 		

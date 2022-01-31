@@ -46,6 +46,7 @@ public class FileProcess {
 	public static void delete(String location) {
 		log.info("location : {}", location);
 		
+		// ▼ 전달받은 location 정보로 새로운 파일 객체 만들기
 		File file = new File(location);
 		
 		if(file.exists()) {
